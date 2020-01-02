@@ -21,7 +21,7 @@ const data = [
 const GameForm = ({value, handleGameChange, addGame}) => {
   return(
     <form onSubmit={addGame}>
-      <TextField id='new-game' label='Add game' variant='outlined' value={value} onChange={handleGameChange}/>
+      <TextField id='new-game' label='Add game' variant='outlined' autoFocus value={value} onChange={handleGameChange}/>
     </form>     
   )
 }
@@ -46,6 +46,7 @@ const Games = () => {
 
   const handleClick = () => {
     setIsModifying(!isModifying)
+    setNewGame('')
   }
 
   const handleGameChange = (event) => {

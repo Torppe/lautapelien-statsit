@@ -1,18 +1,25 @@
 import React, { useState } from 'react'
 import { Bar, Pie, StackedBar } from 'react-roughviz'
 import Grid from '@material-ui/core/Grid'
-import { Button } from '@material-ui/core'
+import { Button, Typography } from '@material-ui/core'
 
 const Stats = () => {
   const players = ['Tuomas', 'Jyri', 'Joona', 'Iida', 'Jokke', 'Maiju']
   const [wins, setWins] = useState([0,1,2,3,4,5])
 
-  const addWin = (player) => {
+  const modifyWin = (player, amount) => {
     const playerOrder = players.findIndex(p => p === player)
     let newWins = [...wins]
-    newWins[playerOrder] += 1 
+    const newAmount = newWins[playerOrder] + (1 * amount)
+
+    if(newAmount < 0)
+      newWins[playerOrder] = 0
+    else
+      newWins[playerOrder] = newAmount
+      
     setWins(newWins)
   }
+
   
   return (
     <>
@@ -26,9 +33,13 @@ const Stats = () => {
             }}
             title="wins"
             />
-          <div style={{marginTop:'3em', listStyleType: 'none'}}>
+          <div style={{marginTop:'1em', listStyleType: 'none'}}>
             {players.map(p => 
-              <li><Button variant='outlined' color='primary' onClick={() => addWin(p)}>{p}</Button></li>
+              <li>
+                <Typography>{p}</Typography>
+                <Button variant='contained' color='primary' onClick={() => modifyWin(p, 1)}>+</Button>
+                <Button variant='outlined' color='primary' onClick={() => modifyWin(p, -1)}>-</Button>  
+              </li>
             )}
           </div>
           </Grid>

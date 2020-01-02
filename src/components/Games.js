@@ -26,10 +26,12 @@ const GameForm = ({value, handleGameChange, addGame}) => {
   )
 }
 
-const Games = () => {
+const Games = ({setHeader}) => {
   const [games, setGames] = useState(data)
   const [newGame, setNewGame] = useState('')
   const [isModifying, setIsModifying] = useState(false)
+
+  setHeader('Games')
 
   const addGame = (event) => {
     event.preventDefault()

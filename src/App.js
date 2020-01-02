@@ -6,7 +6,7 @@ const App = () => {
   return(
     <div>
       <Router>
-        <ResponsiveDrawer />
+        <ResponsiveDrawer/>
       </Router>
     </div>
   )

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Route } from 'react-router-dom'
 import { List } from '@material-ui/core';
 import { makeStyles, useTheme} from '@material-ui/core/styles';
@@ -54,9 +54,10 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const ResponsiveDrawer = (props) => {
-  const classes = useStyles();
-  const theme = useTheme();
-  const [mobileOpen, setMobileOpen] = React.useState(false);
+  const classes = useStyles()
+  const theme = useTheme()
+  const [mobileOpen, setMobileOpen] = useState(false)
+  const [header, setHeader] = useState('Otsikko')
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -68,7 +69,7 @@ const ResponsiveDrawer = (props) => {
       </div>
       <Divider />
       <List>
-          <ListItemLink key='Home' to='/' primary='Home' />
+          <ListItemLink key='Home' to='/' primary='Home'/>
           <ListItemLink key='Games' to='/game-stats' primary='Games' />
           {/* <ListItemLink key='Player stats' to='/player-stats' primary='Player stats' /> */}
       </List>
@@ -90,7 +91,7 @@ const ResponsiveDrawer = (props) => {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap>
-            Otsikko
+            {header}
           </Typography>
         </Toolbar>
       </AppBar>
@@ -125,12 +126,14 @@ const ResponsiveDrawer = (props) => {
       </div>
       <div className={classes.content}>
         <div className={classes.toolbar} />
-          <Route exact path="/"/>
-          <Route exact path="/game-stats" render={() => 
-            <Games />
+          <Route exact path="/">
+            {() => setHeader('')}
+          </Route>
+          <Route exact path="/game-stats" render={() =>
+            <Games setHeader={setHeader} />
           } />
           <Route exact path="/game-stats/:game" render={({ match }) => 
-            <Game game={match.params.game}/>
+            <Game game={match.params.game} setHeader={setHeader}/>
           } />
           {/* <Route exact path="/player-stats" render={() => 
             `this is the player stats screen`

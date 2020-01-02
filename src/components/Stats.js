@@ -20,6 +20,10 @@ const Stats = () => {
     setWins(newWins)
   }
 
+  const buttonStyle = {
+    margin:'1em 0 0 2em', 
+    listStyleType: 'none'
+  }
   
   return (
     <>
@@ -33,9 +37,9 @@ const Stats = () => {
             }}
             title="wins"
             />
-          <div style={{marginTop:'1em', listStyleType: 'none'}}>
+          <div style={buttonStyle}>
             {players.map(p => 
-              <li>
+              <li key={p}>
                 <Typography>{p}</Typography>
                 <Button variant='contained' color='primary' onClick={() => modifyWin(p, 1)}>+</Button>
                 <Button variant='outlined' color='primary' onClick={() => modifyWin(p, -1)}>-</Button>  
@@ -44,6 +48,7 @@ const Stats = () => {
           </div>
           </Grid>
         </Grid>
+      </Grid>
         {/* <Grid item>
           <Pie
             data={{
@@ -56,7 +61,6 @@ const Stats = () => {
             strokeWidth={3}
           />
         </Grid> */}
-      </Grid>
       {/* <Bar
         data="https://raw.githubusercontent.com/jwilber/random_data/master/flavors.csv"
         labels="flavor"

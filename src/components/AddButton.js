@@ -5,9 +5,10 @@ import makeStyles from '@material-ui/styles/makeStyles'
 
 const useStyles = makeStyles(theme => ({
   root: {
-    display: 'flex',
-    margin: 'auto',
-    borderRadius: '0.5em'
+    position: 'fixed',
+    borderRadius: '0.5em',
+    bottom: theme.spacing(2),
+    right: theme.spacing(2)
   }
 }))
 

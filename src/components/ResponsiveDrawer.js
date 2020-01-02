@@ -1,20 +1,19 @@
 import React from 'react';
+import { Route } from 'react-router-dom'
+import { List } from '@material-ui/core';
+import { makeStyles, useTheme} from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Divider from '@material-ui/core/Divider';
 import Drawer from '@material-ui/core/Drawer';
 import Hidden from '@material-ui/core/Hidden';
 import IconButton from '@material-ui/core/IconButton';
-import { List, ListItem } from '@material-ui/core';
 import ListItemLink from './ListItemLink'
 import MenuIcon from '@material-ui/icons/Menu';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
-import { Route, Switch } from 'react-router-dom'
-import Stats from './Stats'
-import AddButton from './AddButton';
-import Games from './Games';
+import Games from './Games'
+import Game from './Game'
 
 const drawerWidth = 240;
 
@@ -41,6 +40,10 @@ const useStyles = makeStyles(theme => ({
     },
   },
   toolbar: theme.mixins.toolbar,
+  toolbarDrawer: {
+    backgroundColor: 'red',
+    ...theme.mixins.toolbar
+  },
   drawerPaper: {
     width: drawerWidth,
   },
@@ -61,11 +64,13 @@ const ResponsiveDrawer = (props) => {
 
   const drawer = (
     <div>
-      <div className={classes.toolbar} />
+      <div className={classes.toolbar}>
+      </div>
       <Divider />
       <List>
-          <ListItemLink key='Game stats' to='/game-stats' primary='Game stats' />
-          <ListItemLink key='Player stats' to='/player-stats' primary='Player stats' />
+          <ListItemLink key='Home' to='/' primary='Home' />
+          <ListItemLink key='Games' to='/game-stats' primary='Games' />
+          {/* <ListItemLink key='Player stats' to='/player-stats' primary='Player stats' /> */}
       </List>
     </div>
   )
@@ -82,7 +87,7 @@ const ResponsiveDrawer = (props) => {
             onClick={handleDrawerToggle}
             className={classes.menuButton}
           >
-          <MenuIcon />
+            <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap>
             Otsikko
@@ -120,14 +125,16 @@ const ResponsiveDrawer = (props) => {
       </div>
       <div className={classes.content}>
         <div className={classes.toolbar} />
-        <Switch>
-          <Route path="/game-stats">
+          <Route exact path="/"/>
+          <Route exact path="/game-stats" render={() => 
             <Games />
-          </Route>
-          <Route path="/player-stats">
-            <Stats />
-          </Route>
-        </Switch>
+          } />
+          <Route exact path="/game-stats/:game" render={({ match }) => 
+            <Game game={match.params.game}/>
+          } />
+          {/* <Route exact path="/player-stats" render={() => 
+            `this is the player stats screen`
+          } /> */}
       </div>
     </div>
   )

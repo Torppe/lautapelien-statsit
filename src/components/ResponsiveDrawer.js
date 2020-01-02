@@ -126,9 +126,7 @@ const ResponsiveDrawer = (props) => {
       </div>
       <div className={classes.content}>
         <div className={classes.toolbar} />
-          <Route exact path="/">
-            {() => setHeader('')}
-          </Route>
+          <Route exact path="/" render={() => setHeader('')} />
           <Route exact path="/game-stats" render={() =>
             <Games setHeader={setHeader} />
           } />

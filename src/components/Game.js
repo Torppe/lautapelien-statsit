@@ -1,15 +1,17 @@
 import React, { useState } from 'react'
 import Stats from './Stats'
 import MatchForm from './MatchForm'
+import { Button } from '@material-ui/core'
 
 const Game = ({game, setHeader}) => {
-  const [isModifying, setIsModifying] = useState(true)
+  const [isModified, setIsModified] = useState(true)
 
   setHeader(game)
+  
   return (
     <>
-      {isModifying && <MatchForm />}
-      <Stats/>
+      <Button onClick={() => setIsModified(!isModified)}>Add new match</Button>
+      {isModified ? <MatchForm /> : <Stats/>}
     </>
   )
 }

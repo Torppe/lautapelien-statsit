@@ -2,8 +2,8 @@ import React, { useState } from 'react'
 import { TextField, Select, MenuItem, FormControl, InputLabel, makeStyles, Grid, Button, IconButton } from '@material-ui/core'
 import { Delete } from '@material-ui/icons'
 
-const Player = ({removePlayer, thisPlayer}) => {
-  const [player, setPlayer] = useState()
+const Player = ({removePlayer, id}) => {
+  const [player, setPlayer] = useState('')
   const [points, setPoints] = useState(null)
 
   return (
@@ -24,7 +24,7 @@ const Player = ({removePlayer, thisPlayer}) => {
         </FormControl>
       </Grid>
       <Grid item xs={1}>
-        <IconButton aira-label='delete' onClick={() => removePlayer(thisPlayer)}>
+        <IconButton aira-label='delete' onClick={() => removePlayer(id)}>
           <Delete />
         </IconButton>
       </Grid>
@@ -33,7 +33,7 @@ const Player = ({removePlayer, thisPlayer}) => {
 }
 
 const MatchForm = () => {
-  const [players, setPlayers] = useState(['m','t','j'])
+  const [players, setPlayers] = useState([])
 
   const addMatch = (event) => {
     event.preventDefault()
@@ -41,7 +41,7 @@ const MatchForm = () => {
   }
 
   const addPlayer = () => {
-    setPlayers([...players, 'new player'])
+    setPlayers([...players, ''])
   }
 
   const removePlayer = (removedPlayer) => {
@@ -52,10 +52,11 @@ const MatchForm = () => {
     <div>
       <form onSubmit={addMatch}>
         {players.map(p => 
-          <Player key={p} thisPlayer={p} removePlayer={removePlayer} />
+          <Player key={p} id={p} removePlayer={removePlayer} />
         )}
-      </form>
       <Button onClick={addPlayer}>Add player</Button>
+      <Button type='submit'>Submit</Button>
+      </form>
     </div>
   )
 }

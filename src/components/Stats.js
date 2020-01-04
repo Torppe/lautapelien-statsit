@@ -7,23 +7,23 @@ const Stats = () => {
   const players = ['Tuomas', 'Jyri', 'Joona', 'Iida', 'Jokke', 'Maiju']
   const [wins, setWins] = useState([0,1,2,3,4,5])
 
-  const modifyWin = (player, amount) => {
-    const playerOrder = players.findIndex(p => p === player)
-    let newWins = [...wins]
-    const newAmount = newWins[playerOrder] + (1 * amount)
+  // const modifyWin = (player, amount) => {
+  //   const playerOrder = players.findIndex(p => p === player)
+  //   let newWins = [...wins]
+  //   const newAmount = newWins[playerOrder] + (1 * amount)
 
-    if(newAmount < 0)
-      newWins[playerOrder] = 0
-    else
-      newWins[playerOrder] = newAmount
+  //   if(newAmount < 0)
+  //     newWins[playerOrder] = 0
+  //   else
+  //     newWins[playerOrder] = newAmount
       
-    setWins(newWins)
-  }
+  //   setWins(newWins)
+  // }
 
-  const buttonStyle = {
-    margin:'1em 0 0 2em', 
-    listStyleType: 'none'
-  }
+  // const buttonStyle = {
+  //   margin:'1em 0 0 2em', 
+  //   listStyleType: 'none'
+  // }
   
   return (
     <>
@@ -37,7 +37,7 @@ const Stats = () => {
             }}
             title="wins"
             />
-          <div style={buttonStyle}>
+          {/* <div style={buttonStyle}>
             {players.map(p => 
               <li key={p}>
                 <Typography>{p}</Typography>
@@ -45,7 +45,7 @@ const Stats = () => {
                 <Button variant='outlined' color='primary' onClick={() => modifyWin(p, -1)}>-</Button>  
               </li>
             )}
-          </div>
+          </div> */}
           </Grid>
         </Grid>
       </Grid>

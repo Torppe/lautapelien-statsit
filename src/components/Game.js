@@ -4,7 +4,7 @@ import MatchForm from './MatchForm'
 import { Button } from '@material-ui/core'
 
 const Game = ({game, setHeader}) => {
-  const [isModified, setIsModified] = useState(true)
+  const [isModified, setIsModified] = useState(false)
 
   setHeader(game)
   

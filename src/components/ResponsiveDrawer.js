@@ -71,7 +71,6 @@ const ResponsiveDrawer = (props) => {
       <List>
           <ListItemLink key='Home' to='/' primary='Home'/>
           <ListItemLink key='Games' to='/game-stats' primary='Games' />
-          {/* <ListItemLink key='Player stats' to='/player-stats' primary='Player stats' /> */}
       </List>
     </div>
   )
@@ -133,9 +132,6 @@ const ResponsiveDrawer = (props) => {
           <Route exact path="/game-stats/:game" render={({ match }) => 
             <Game game={match.params.game} setHeader={setHeader}/>
           } />
-          {/* <Route exact path="/player-stats" render={() => 
-            `this is the player stats screen`
-          } /> */}
       </div>
     </div>
   )

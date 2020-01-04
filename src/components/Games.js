@@ -18,7 +18,7 @@ const data = [
   },
 ]
 
-const GameForm = ({value, handleGameChange, addGame}) => {
+const AddGame = ({value, handleGameChange, addGame}) => {
   return(
     <form onSubmit={addGame}>
       <TextField id='new-game' label='Add game' variant='outlined' autoFocus value={value} onChange={handleGameChange}/>
@@ -43,7 +43,6 @@ const Games = ({setHeader}) => {
     setGames([...games, gameObject])
     setIsModifying(false)
     setNewGame('')
-    console.log(`new game added! ${gameObject._id}`)
   }
 
   const handleClick = () => {
@@ -62,7 +61,7 @@ const Games = ({setHeader}) => {
           <ListItemLink key={g._id} primary={g.title} to={`/game-stats/${g.title}`}/>
         )}
       </List>
-      {isModifying ? <GameForm value={newGame} handleGameChange={handleGameChange} addGame={addGame}/> : null}
+      {isModifying && <AddGame value={newGame} handleGameChange={handleGameChange} addGame={addGame}/>}
       <AddButton handleClick={handleClick}/>
     </>
   )

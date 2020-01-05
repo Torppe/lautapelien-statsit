@@ -7,10 +7,12 @@ const data = [
     id: 1,
     players: [
       {
+        _id: 1,
         player: 'Tuomas',
         points: 5
       },
       {
+        _id: 2,
         player: 'Maiju',
         points: 4
       }
@@ -20,10 +22,12 @@ const data = [
     id: 2,
     players: [
       {
+        _id: 1,
         player: 'Tuomas',
         points: 1
       },
       {
+        _id: 2,
         player: 'Maiju',
         points: 3
       }
@@ -35,12 +39,23 @@ const Game = ({ game, setHeader }) => {
   const [isModified, setIsModified] = useState(false)
   const [matches, setMatches] = useState(data)
 
+  const handleSubmit = (players) => {
+    const newMatch = {
+      id: 3,
+      players: players
+    }
+    const newMatches = [...matches, newMatch]
+    console.log(newMatches)
+    setMatches(newMatches)
+    setIsModified(false)
+  }
+
   setHeader(game)
 
   return (
     <>
       <Button onClick={() => setIsModified(!isModified)}>Add new match</Button>
-      {isModified ? <MatchForm /> : <Stats data={matches}/>}
+      {isModified ? <MatchForm handleSubmit={handleSubmit}/> : <Stats data={matches}/>}
     </>
   )
 }

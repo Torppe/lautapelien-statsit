@@ -4,9 +4,9 @@ import Grid from '@material-ui/core/Grid'
 import { Typography, Card, CardContent } from '@material-ui/core'
 
 const Stats = ({ data }) => {
-  const matches = data.map(d => d.players).flat()
-  const points = matches.map(m => m.points)
-  const averagePoints = points.reduce((acc, item) => acc + item, 0) / points.length
+  const players = data.map(d => d.players).flat()
+  const points = players.map(m => m.points)
+  const averagePoints = +(points.reduce((acc, item) => acc + item, 0) / points.length).toFixed(2)
 
   // käytetään jos tarvitaan taulukkoa
   // const playersWithPoints = players.reduce((newArray, item) => {
@@ -27,7 +27,7 @@ const Stats = ({ data }) => {
   //   }
   // }, [])
 
-  const playersWithPoints = matches.reduce((newArray, item) => {
+  const playersWithPoints = players.reduce((newArray, item) => {
     return {
       ...newArray,
       [item.player]: newArray[item.player] === undefined ? item.points : newArray[item.player] + item.points
@@ -37,6 +37,54 @@ const Stats = ({ data }) => {
   return (
     <>
       <Grid container spacing={2} justify='center'>
+        <Grid item>
+          <Card>
+            <CardContent>
+              <Typography color="textSecondary" gutterBottom>
+                Average points
+              </Typography>
+              <Typography variant="h5" component="h2">
+                {averagePoints}
+              </Typography>
+            </CardContent>
+          </Card>
+        </Grid>
+        <Grid item>
+          <Card>
+            <CardContent>
+              <Typography color="textSecondary" gutterBottom>
+                Average points
+              </Typography>
+              <Typography variant="h5" component="h2">
+                {averagePoints}
+              </Typography>
+            </CardContent>
+          </Card>
+        </Grid>
+        <Grid item>
+          <Card>
+            <CardContent>
+              <Typography color="textSecondary" gutterBottom>
+                Average points
+              </Typography>
+              <Typography variant="h5" component="h2">
+                {averagePoints}
+              </Typography>
+            </CardContent>
+          </Card>
+        </Grid>
+        <Grid item>
+          <Card>
+            <CardContent>
+              <Typography color="textSecondary" gutterBottom>
+                Average points
+              </Typography>
+              <Typography variant="h5" component="h2">
+                {averagePoints}
+              </Typography>
+            </CardContent>
+          </Card>
+        </Grid>
         <Grid item>
           <Card>
             <CardContent>

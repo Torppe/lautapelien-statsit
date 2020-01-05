@@ -1,91 +1,67 @@
 import React, { useState } from 'react'
-import { Bar, Pie, StackedBar } from 'react-roughviz'
+import { Bar, Pie, StackedBar, Line } from 'react-roughviz'
 import Grid from '@material-ui/core/Grid'
-import { Button, Typography } from '@material-ui/core'
+import { Typography, Card, CardContent } from '@material-ui/core'
 
-const Stats = () => {
-  const players = ['Tuomas', 'Jyri', 'Joona', 'Iida', 'Jokke', 'Maiju']
-  const [wins, setWins] = useState([0,1,2,3,4,5])
+const Stats = ({ data }) => {
+  const matches = data.map(d => d.players).flat()
+  const points = matches.map(m => m.points)
+  const averagePoints = points.reduce((acc, item) => acc + item, 0) / points.length
 
-  // const modifyWin = (player, amount) => {
-  //   const playerOrder = players.findIndex(p => p === player)
-  //   let newWins = [...wins]
-  //   const newAmount = newWins[playerOrder] + (1 * amount)
+  // käytetään jos tarvitaan taulukkoa
+  // const playersWithPoints = players.reduce((newArray, item) => {
+  //   if (newArray.some(p => p.player === item.player)) {
+  //     return newArray.map(p => {
+  //       if(p.player === item.player) {
+  //         const newObject = {
+  //           ...p,
+  //           points: p.points + item.points
+  //         }
+  //         return newObject
+  //       } else {
+  //         return p
+  //       }
+  //     })
+  //   } else {
+  //     return [...newArray, item]
+  //   }
+  // }, [])
 
-  //   if(newAmount < 0)
-  //     newWins[playerOrder] = 0
-  //   else
-  //     newWins[playerOrder] = newAmount
-      
-  //   setWins(newWins)
-  // }
+  const playersWithPoints = matches.reduce((newArray, item) => {
+    return {
+      ...newArray,
+      [item.player]: newArray[item.player] === undefined ? item.points : newArray[item.player] + item.points
+    }
+  }, {})
 
-  // const buttonStyle = {
-  //   margin:'1em 0 0 2em', 
-  //   listStyleType: 'none'
-  // }
-  
   return (
     <>
-      <Grid container justify='space-around' spacing={2}>
+      <Grid container spacing={2} justify='center'>
         <Grid item>
-          <Grid container justify='center' spacing={2}>
-          <Bar 
-            data={{
-              labels: players,
-              values: wins
-            }}
-            title="wins"
-            />
-          {/* <div style={buttonStyle}>
-            {players.map(p => 
-              <li key={p}>
-                <Typography>{p}</Typography>
-                <Button variant='contained' color='primary' onClick={() => modifyWin(p, 1)}>+</Button>
-                <Button variant='outlined' color='primary' onClick={() => modifyWin(p, -1)}>-</Button>  
-              </li>
-            )}
-          </div> */}
-          </Grid>
+          <Card>
+            <CardContent>
+              <Typography color="textSecondary" gutterBottom>
+                Average points
+              </Typography>
+              <Typography variant="h5" component="h2">
+                {averagePoints}
+              </Typography>
+            </CardContent>
+          </Card>
+        </Grid>
+        <Grid item>
+          <Card>
+            <CardContent>
+              <Typography color="textSecondary" gutterBottom>
+                Average points
+              </Typography>
+              <Typography variant="h5" component="h2">
+                {averagePoints}
+              </Typography>
+            </CardContent>
+          </Card>
         </Grid>
       </Grid>
-        {/* <Grid item>
-          <Pie
-            data={{
-              labels: ['North', 'South', 'East', 'West'],
-              values: [10, 5, 8, 3],
-            }}
-            title="Regions"
-            colors={['red', 'orange', 'blue', 'skyblue']}
-            roughness={0}
-            strokeWidth={3}
-          />
-        </Grid> */}
-      {/* <Bar
-        data="https://raw.githubusercontent.com/jwilber/random_data/master/flavors.csv"
-        labels="flavor"
-        values="price"
-      /> */}
-      {/* <h3>Pie</h3> */}
-      {/* <Pie
-        data={{
-          labels: ['North', 'South', 'East', 'West'],
-          values: [10, 5, 8, 3],
-        }}
-        title="Regions"
-        colors={['red', 'orange', 'blue', 'skyblue']}
-        roughness={8}
-        strokeWidth={3}
-      /> */}
-      {/* <StackedBar
-        data={[
-          {month: 'Jan', A: 20, B: 5, C: 10},
-          {month: 'Feb', A: 25, B: 10, C: 20},
-          {month: 'March', A: 30, B: 50, C: 10},
-        ]}
-        labels="month"
-        title="Monthly Revenue"
-      /> */}
     </>
   )
 }

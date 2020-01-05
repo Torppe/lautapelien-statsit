@@ -2,21 +2,6 @@ import React, { useState } from 'react'
 import { Button } from '@material-ui/core'
 import Player from './Player'
 
-const data = [
-  {
-    _id: "1",
-    player: "",
-  },
-  {
-    _id: "2",
-    player: "",
-  },
-  {
-    _id: "3",
-    player: "",
-  },
-]
-
 const MatchForm = () => {
   const [players, setPlayers] = useState([])
 

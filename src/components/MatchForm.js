@@ -1,8 +1,10 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Button } from '@material-ui/core'
 import Player from './Player'
 
-const MatchForm = ({handleSubmit}) => {
+const availablePlayers = ['Tuomas', 'Maiju', 'Iida', 'Jyri', 'Jokke', 'Joona']
+
+const MatchForm = ({ handleSubmit }) => {
   const [players, setPlayers] = useState([])
 
   const addMatch = (event) => {
@@ -11,10 +13,9 @@ const MatchForm = ({handleSubmit}) => {
     console.log('submitted', players)
   }
 
-  const updatePlayer = (player, value, valueToChange) => {
-    let newPlayer = { ...player }
-    valueToChange === 'name' ? newPlayer.player = value : newPlayer.points = Number(value)
-    setPlayers(players.map(p => p._id !== player._id ? p : newPlayer))
+  const updatePlayer = (newPlayer) => {
+    const newPlayers = players.map(p => p._id !== newPlayer._id ? p : newPlayer)
+    setPlayers(newPlayers)
   }
 
   const addPlayer = () => {
@@ -34,11 +35,11 @@ const MatchForm = ({handleSubmit}) => {
   return (
     <div>
       <form onSubmit={addMatch}>
-        {players.map(p => 
-          <Player key={p._id} player={p} removePlayer={removePlayer} updatePlayer={updatePlayer}/>
+        {players.map(p =>
+          <Player key={p._id} availablePlayers={availablePlayers} player={p} players={players} removePlayer={removePlayer} updatePlayer={updatePlayer} />
         )}
-      <Button onClick={addPlayer}>Add player</Button>
-      <Button type='submit'>Submit</Button>
+        <Button onClick={addPlayer}>Add player</Button>
+        <Button type='submit'>Submit</Button>
       </form>
     </div>
   )

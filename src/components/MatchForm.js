@@ -9,8 +9,9 @@ const MatchForm = ({ handleSubmit }) => {
 
   const addMatch = (event) => {
     event.preventDefault()
-    handleSubmit(players)
-    console.log('submitted', players)
+    const validPlayers = players.filter(p => p.player)
+    handleSubmit(validPlayers)
+    console.log('submitted', validPlayers)
   }
 
   const updatePlayer = (newPlayer) => {

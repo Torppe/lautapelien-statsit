@@ -1,8 +1,8 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { TextField, Select, MenuItem, FormControl, InputLabel, Grid, IconButton } from '@material-ui/core'
 import { Delete } from '@material-ui/icons'
 
-const Player = ({availablePlayers, player, players, removePlayer, updatePlayer }) => {
+const Player = ({ availablePlayers, player, players, removePlayer, updatePlayer }) => {
   const unavailablePlayers = players.map(p => p.player)
 
   const updateSelection = (value) => {
@@ -10,7 +10,7 @@ const Player = ({availablePlayers, player, players, removePlayer, updatePlayer }
       ...player,
       player: value
     }
-    
+
     updatePlayer(newPlayer)
   }
 
@@ -24,18 +24,30 @@ const Player = ({availablePlayers, player, players, removePlayer, updatePlayer }
   }
 
   return (
-    <Grid container spacing={2} alignItems='center' justify='center'>
+    <Grid container spacing={2} justify='center'>
       <Grid item xs={3}>
-        <FormControl fullWidth>
+        <FormControl fullWidth variant='outlined'>
           <InputLabel id='player-label'>Player</InputLabel>
-          <Select labelId='player-label' id='player' value={player.player} onChange={({ target }) => updateSelection(target.value)}>
+          <Select
+            labelId='player-label'
+            id='player'
+            value={player.player}
+            onChange={({ target }) => updateSelection(target.value)}
+          >
             {availablePlayers.map(p => <MenuItem key={p} disabled={unavailablePlayers.includes(p)} value={p}>{p}</MenuItem>)}
           </Select>
         </FormControl>
       </Grid>
       <Grid item xs={2}>
         <FormControl fullWidth>
-          <TextField id='points' label='Points' type='number' defaultValue={player.points} onChange={({ target }) => updatePoints( target.value, 'points')} />
+          <TextField
+            id='points'
+            label='Points'
+            type='number'
+            defaultValue={player.points}
+            onChange={({ target }) => updatePoints(target.value, 'points')}
+            variant='outlined'
+          />
         </FormControl>
       </Grid>
       <Grid item xs={1}>

@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import Stats from './Stats'
 import MatchForm from './MatchForm'
 import { Button } from '@material-ui/core'
+import AddButton from './AddButton'
 const data = [
   {
     id: 1,
@@ -54,7 +55,7 @@ const Game = ({ game, setHeader }) => {
 
   return (
     <>
-      <Button onClick={() => setIsModified(!isModified)}>Add new match</Button>
+      <AddButton handleClick={() => setIsModified(!isModified)}/>
       {isModified ? <MatchForm handleSubmit={handleSubmit}/> : <Stats data={matches}/>}
     </>
   )

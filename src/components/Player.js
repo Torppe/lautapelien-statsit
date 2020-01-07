@@ -24,8 +24,8 @@ const Player = ({ availablePlayers, player, players, removePlayer, updatePlayer 
   }
 
   return (
-    <Grid container spacing={2} justify='center'>
-      <Grid item xs={3}>
+    <Grid container spacing={1} justify='center'>
+      <Grid item md={3} xs={5}>
         <FormControl fullWidth variant='outlined'>
           <InputLabel id='player-label'>Player</InputLabel>
           <Select
@@ -38,17 +38,16 @@ const Player = ({ availablePlayers, player, players, removePlayer, updatePlayer 
           </Select>
         </FormControl>
       </Grid>
-      <Grid item xs={2}>
-        <FormControl fullWidth>
-          <TextField
-            id='points'
-            label='Points'
-            type='number'
-            defaultValue={player.points}
-            onChange={({ target }) => updatePoints(target.value, 'points')}
-            variant='outlined'
-          />
-        </FormControl>
+      <Grid item md={3} xs={5}>
+        <TextField
+          fullWidth
+          id='points'
+          label='Points'
+          type='number'
+          defaultValue={player.points}
+          onChange={({ target }) => updatePoints(target.value, 'points')}
+          variant='outlined'
+        />
       </Grid>
       <Grid item xs={1}>
         <IconButton aira-label='delete' onClick={() => removePlayer(player)}>

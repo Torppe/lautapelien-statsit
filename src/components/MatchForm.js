@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react'
-import { Button } from '@material-ui/core'
+import React, { useState } from 'react'
+import { Button, Grid, Paper, Container } from '@material-ui/core'
 import Player from './Player'
 
 const availablePlayers = ['Tuomas', 'Maiju', 'Iida', 'Jyri', 'Jokke', 'Joona']
@@ -36,11 +36,21 @@ const MatchForm = ({ handleSubmit }) => {
   return (
     <div>
       <form onSubmit={addMatch}>
-        {players.map(p =>
-          <Player key={p._id} availablePlayers={availablePlayers} player={p} players={players} removePlayer={removePlayer} updatePlayer={updatePlayer} />
-        )}
-        <Button onClick={addPlayer}>Add player</Button>
-        <Button type='submit'>Submit</Button>
+        <Container maxWidth='md' disableGutters>
+          <Paper style={{padding: '2em'}}>
+            {players.map(p =>
+              <Player key={p._id} availablePlayers={availablePlayers} player={p} players={players} removePlayer={removePlayer} updatePlayer={updatePlayer} />
+              )}
+            <Grid container justify='space-between'>
+              <Grid item>
+                <Button variant='outlined' color='primary' onClick={addPlayer}>Add player</Button>
+              </Grid>
+              <Grid item>
+                <Button variant='contained' color='primary' type='submit'>Submit</Button>
+              </Grid>
+            </Grid>
+          </Paper>
+        </Container>
       </form>
     </div>
   )

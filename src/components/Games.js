@@ -1,22 +1,8 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { List, TextField } from '@material-ui/core'
 import ListItemLink from './ListItemLink'
 import AddButton from './AddButton'
-
-const data = [
-  {
-    _id: "1",
-    title: "7 wonders",
-  },
-  {
-    _id: "2",
-    title: "Terraforming mars",
-  },
-  {
-    _id: "3",
-    title: "Power grid",
-  },
-]
+import gameService from '../services/games'
 
 const AddGame = ({value, handleGameChange, addGame}) => {
   return(
@@ -27,11 +13,20 @@ const AddGame = ({value, handleGameChange, addGame}) => {
 }
 
 const Games = ({setHeader}) => {
-  const [games, setGames] = useState(data)
+  setHeader('Games')
+
+  const [games, setGames] = useState([])
   const [newGame, setNewGame] = useState('')
   const [isModifying, setIsModifying] = useState(false)
 
-  setHeader('Games')
+  useEffect(() => {
+    gameService
+      .getAll()
+      .then(response => {
+        setGames(response.data)
+      })
+  }, [])
+
 
   const addGame = (event) => {
     event.preventDefault()

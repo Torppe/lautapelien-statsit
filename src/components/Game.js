@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import Stats from './Stats'
 import MatchForm from './MatchForm'
-import { Button } from '@material-ui/core'
 import AddButton from './AddButton'
 const data = [
   {

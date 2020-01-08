@@ -16,7 +16,7 @@ const Games = ({setHeader}) => {
   setHeader('Games')
 
   const [games, setGames] = useState([])
-  const [newGame, setNewGame] = useState('')
+  const [newGame, setNewGame] = useState(null)
   const [isModifying, setIsModifying] = useState(false)
 
   useEffect(() => {
@@ -27,17 +27,18 @@ const Games = ({setHeader}) => {
       })
   }, [])
 
-
   const addGame = (event) => {
     event.preventDefault()
-    const newId = Math.max(...games.map(g => g._id)) + 1
-    const gameObject = {
-      _id: newId.toString(),
+    const newObject = {
       title: newGame
     }
-    setGames([...games, gameObject])
-    setIsModifying(false)
-    setNewGame('')
+    gameService
+      .create(newObject)
+      .then(response => {
+        setGames([...games, response.data])
+        setIsModifying(false)
+        setNewGame('')
+      })
   }
 
   const handleClick = () => {
@@ -53,7 +54,7 @@ const Games = ({setHeader}) => {
     <>
       <List>
         {games.map(g => 
-          <ListItemLink key={g._id} primary={g.title} to={`/game-stats/${g.title}`}/>
+          <ListItemLink key={g.id} primary={g.title} to={`/game-stats/${g.title}`}/>
         )}
       </List>
       {isModifying && <AddGame value={newGame} handleGameChange={handleGameChange} addGame={addGame}/>}

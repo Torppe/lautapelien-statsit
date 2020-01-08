@@ -1,43 +1,30 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Stats from './Stats'
 import MatchForm from './MatchForm'
 import AddButton from './AddButton'
-const data = [
-  {
-    id: 1,
-    players: [
-      {
-        _id: 1,
-        player: 'Tuomas',
-        points: 5
-      },
-      {
-        _id: 2,
-        player: 'Maiju',
-        points: 4
-      }
-    ]
-  },
-  {
-    id: 2,
-    players: [
-      {
-        _id: 1,
-        player: 'Tuomas',
-        points: 1
-      },
-      {
-        _id: 2,
-        player: 'Maiju',
-        points: 3
-      }
-    ]
-  }
-]
+import matchService from '../services/matches'
+import gameService from '../services/games'
 
-const Game = ({ game, setHeader }) => {
+const Game = ({ gameId, setHeader }) => {
+  // setHeader(gameId)
+
+  const [matches, setMatches] = useState([])
   const [isModified, setIsModified] = useState(false)
-  const [matches, setMatches] = useState(data)
+  console.log(gameId)
+  
+  useEffect(() => {
+    matchService
+      .getByGame(gameId)
+      .then(response => {
+        setMatches(response.data)
+      })
+    gameService
+      .getById(gameId)
+      .then(response => {
+        setHeader(response.data.title)
+      })
+  }, [])
+
 
   const handleSubmit = (players) => {
     const newMatch = {
@@ -50,12 +37,11 @@ const Game = ({ game, setHeader }) => {
     setIsModified(false)
   }
 
-  setHeader(game)
 
   return (
     <>
       <AddButton handleClick={() => setIsModified(!isModified)}/>
-      {isModified ? <MatchForm handleSubmit={handleSubmit}/> : <Stats data={matches}/>}
+      {isModified ? <MatchForm handleSubmit={handleSubmit}/> : <Stats matches={matches}/>}
     </>
   )
 }

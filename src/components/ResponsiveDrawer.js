@@ -130,7 +130,7 @@ const ResponsiveDrawer = (props) => {
             <Games setHeader={setHeader} />
           } />
           <Route exact path="/game-stats/:game" render={({ match }) => 
-            <Game game={match.params.game} setHeader={setHeader}/>
+            <Game gameId={match.params.game} setHeader={setHeader}/>
           } />
       </div>
     </div>

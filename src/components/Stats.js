@@ -3,11 +3,11 @@ import { Bar, Pie, StackedBar, Line } from 'react-roughviz'
 import Grid from '@material-ui/core/Grid'
 import { Typography, Card, CardContent } from '@material-ui/core'
 
-const Stats = ({ data }) => {
-  const players = data.map(d => d.players).flat()
+const Stats = ({ matches }) => {
+  const players = matches.map(d => d.players).flat()
   const points = players.map(m => m.points)
-  const averagePoints = +(points.reduce((acc, item) => acc + item, 0) / points.length).toFixed(2)
-
+  let averagePoints = +(points.reduce((acc, item) => acc + item, 0) / points.length).toFixed(2)
+  averagePoints = averagePoints ? averagePoints : 0
   // käytetään jos tarvitaan taulukkoa
   // const playersWithPoints = players.reduce((newArray, item) => {
   //   if (newArray.some(p => p.player === item.player)) {
@@ -33,7 +33,7 @@ const Stats = ({ data }) => {
       [item.player]: newArray[item.player] === undefined ? item.points : newArray[item.player] + item.points
     }
   }, {})
-
+ 
   return (
     <>
       <Grid container spacing={2} justify='center'>

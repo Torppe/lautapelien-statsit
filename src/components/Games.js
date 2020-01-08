@@ -54,7 +54,7 @@ const Games = ({setHeader}) => {
     <>
       <List>
         {games.map(g => 
-          <ListItemLink key={g.id} primary={g.title} to={`/game-stats/${g.title}`}/>
+          <ListItemLink key={g.id} primary={g.title} to={`/game-stats/${g.id}`}/>
         )}
       </List>
       {isModifying && <AddGame value={newGame} handleGameChange={handleGameChange} addGame={addGame}/>}

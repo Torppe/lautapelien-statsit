@@ -1,12 +1,12 @@
 import axios from 'axios'
-const baseUrl = 'http://localhost:3001/api/games'
+const baseUrl = 'http://localhost:3001/api/matches'
 
 const getAll = () => {
   return axios.get(baseUrl)
 }
 
-const getById = (id) => {
-  return axios.get(`${baseUrl}/${id}`)
+const getByGame = (id) => {
+  return axios.get(`${baseUrl}/game/${id}`)
 }
 
 const create = newObject => {
@@ -21,5 +21,5 @@ export default {
   getAll,
   create,
   update,
-  getById
+  getByGame
 }

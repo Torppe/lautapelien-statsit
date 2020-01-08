@@ -25,6 +25,9 @@ const Games = ({setHeader}) => {
       .then(response => {
         setGames(response.data)
       })
+      .catch(error => {
+        console.log('failed to get game data')
+      })
   }, [])
 
   const addGame = (event) => {
@@ -38,6 +41,9 @@ const Games = ({setHeader}) => {
         setGames([...games, response.data])
         setIsModifying(false)
         setNewGame('')
+      })
+      .catch(error => {
+        console.log('failed to create game')
       })
   }
 

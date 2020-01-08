@@ -26,7 +26,11 @@ const Player = ({ availablePlayers, player, players, removePlayer, updatePlayer 
   return (
     <Grid container spacing={1} justify='center'>
       <Grid item md={3} xs={5}>
-        <FormControl fullWidth variant='outlined'>
+        <FormControl 
+          fullWidth 
+          variant='outlined'
+          required
+        >
           <InputLabel id='player-label'>Player</InputLabel>
           <Select
             labelId='player-label'
@@ -41,6 +45,7 @@ const Player = ({ availablePlayers, player, players, removePlayer, updatePlayer 
       <Grid item md={3} xs={5}>
         <TextField
           fullWidth
+          required
           id='points'
           label='Points'
           type='number'

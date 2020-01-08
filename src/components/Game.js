@@ -6,35 +6,42 @@ import matchService from '../services/matches'
 import gameService from '../services/games'
 
 const Game = ({ gameId, setHeader }) => {
-  // setHeader(gameId)
-
   const [matches, setMatches] = useState([])
   const [isModified, setIsModified] = useState(false)
-  console.log(gameId)
-  
+
   useEffect(() => {
     matchService
       .getByGame(gameId)
       .then(response => {
         setMatches(response.data)
       })
+      .catch(error => {
+        console.log('failed to get match data')
+      })
     gameService
       .getById(gameId)
       .then(response => {
         setHeader(response.data.title)
+      })
+      .catch(error => {
+        console.log('failed to get game data')
       })
   }, [])
 
 
   const handleSubmit = (players) => {
     const newMatch = {
-      id: 3,
       players: players
     }
-    const newMatches = [...matches, newMatch]
-    console.log(newMatches)
-    setMatches(newMatches)
-    setIsModified(false)
+    matchService
+      .create(newMatch)
+      .then(response => {
+        setMatches([...matches, response.data])
+        setIsModified(false)
+      })
+      .catch(error => {
+        console.log('failed to create a new match')
+      })
   }
 
 

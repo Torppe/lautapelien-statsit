@@ -16,23 +16,23 @@ const Game = ({ gameId, setHeader }) => {
         setMatches(response.data)
       })
       .catch(error => {
-        console.log('failed to get match data')
+        console.log('failed to get match data', error)
       })
     gameService
       .getById(gameId)
       .then(response => {
         setHeader(response.data.title)
       })
-      .catch(error => {
-        console.log('failed to get game data')
-      })
-  }, [])
+  }, [gameId])
 
-
-  const handleSubmit = (players) => {
+  const handleSubmit = (newPlayers) => {
     const newMatch = {
-      players: players
+      game: gameId,
+      players: newPlayers
     }
+
+    console.log(newMatch)
+
     matchService
       .create(newMatch)
       .then(response => {
@@ -40,10 +40,9 @@ const Game = ({ gameId, setHeader }) => {
         setIsModified(false)
       })
       .catch(error => {
-        console.log('failed to create a new match')
+        console.log('failed to create a new match', error)
       })
   }
-
 
   return (
     <>

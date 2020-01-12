@@ -1,114 +1,62 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { Bar, Pie, StackedBar, Line } from 'react-roughviz'
 import Grid from '@material-ui/core/Grid'
 import { Typography, Card, CardContent } from '@material-ui/core'
+import playerService from '../services/players'
+
+const GridItem = (props) => {
+  const {title, value} = props
+  if(!title || !value)
+    return null
+
+  return (
+    <Grid item>
+      <Card>
+        <CardContent>
+          <Typography color="textSecondary" gutterBottom>
+            {title}
+          </Typography>
+          <Typography variant="h5" component="h2">
+            {value}
+          </Typography>
+          {props.children}
+        </CardContent>
+      </Card>
+    </Grid>
+  )
+}
 
 const Stats = ({ matches }) => {
-  const players = matches.map(d => d.players).flat()
-  const points = players.map(m => m.points)
-  let averagePoints = +(points.reduce((acc, item) => acc + item, 0) / points.length).toFixed(2)
-  averagePoints = averagePoints ? averagePoints : 0
-  // käytetään jos tarvitaan taulukkoa
-  // const playersWithPoints = players.reduce((newArray, item) => {
-  //   if (newArray.some(p => p.player === item.player)) {
-  //     return newArray.map(p => {
-  //       if(p.player === item.player) {
-  //         const newObject = {
-  //           ...p,
-  //           points: p.points + item.points
-  //         }
-  //         return newObject
-  //       } else {
-  //         return p
-  //       }
-  //     })
-  //   } else {
-  //     return [...newArray, item]
-  //   }
-  // }, [])
-
-  const playersWithPoints = players.reduce((newArray, item) => {
-    return {
-      ...newArray,
-      [item.player]: newArray[item.player] === undefined ? item.points : newArray[item.player] + item.points
-    }
-  }, {})
- 
+  const [mostPointsPlayer, setMostPointsPlayer] = useState(null)
+  const players = matches.map(m => m.players).flat()
+  const points = players.map(p => p.points)
+  const averagePoints = +(points.reduce((acc, item) => acc + item, 0) / points.length).toFixed(2)
+  const playerWithMostPoints = players.reduce((acc, item) => (item.points > acc.points) ? item : acc, {points: 0})
+  
+  useEffect(() => {
+    if(!playerWithMostPoints.player)
+      return
+      
+    playerService
+      .getById(playerWithMostPoints.player)
+      .then(response => {
+        setMostPointsPlayer({...playerWithMostPoints, name:response.data.name})
+      })
+      .catch(error => {
+        console.log('failed to fetch player data', error)
+      })
+  }, [playerWithMostPoints])
+  
   return (
     <>
       <Grid container spacing={2} justify='center'>
-        <Grid item>
-          <Card>
-            <CardContent>
-              <Typography color="textSecondary" gutterBottom>
-                Average points
-              </Typography>
-              <Typography variant="h5" component="h2">
-                {averagePoints}
-              </Typography>
-            </CardContent>
-          </Card>
-        </Grid>
-        <Grid item>
-          <Card>
-            <CardContent>
-              <Typography color="textSecondary" gutterBottom>
-                Average points
-              </Typography>
-              <Typography variant="h5" component="h2">
-                {averagePoints}
-              </Typography>
-            </CardContent>
-          </Card>
-        </Grid>
-        <Grid item>
-          <Card>
-            <CardContent>
-              <Typography color="textSecondary" gutterBottom>
-                Average points
-              </Typography>
-              <Typography variant="h5" component="h2">
-                {averagePoints}
-              </Typography>
-            </CardContent>
-          </Card>
-        </Grid>
-        <Grid item>
-          <Card>
-            <CardContent>
-              <Typography color="textSecondary" gutterBottom>
-                Average points
-              </Typography>
-              <Typography variant="h5" component="h2">
-                {averagePoints}
-              </Typography>
-            </CardContent>
-          </Card>
-        </Grid>
-        <Grid item>
-          <Card>
-            <CardContent>
-              <Typography color="textSecondary" gutterBottom>
-                Average points
-              </Typography>
-              <Typography variant="h5" component="h2">
-                {averagePoints}
-              </Typography>
-            </CardContent>
-          </Card>
-        </Grid>
-        <Grid item>
-          <Card>
-            <CardContent>
-              <Typography color="textSecondary" gutterBottom>
-                Average points
-              </Typography>
-              <Typography variant="h5" component="h2">
-                {averagePoints}
-              </Typography>
-            </CardContent>
-          </Card>
-        </Grid>
+        <GridItem title='Average points' value={averagePoints} />
+        {mostPointsPlayer && 
+          <GridItem title='Most points' value={mostPointsPlayer.points}>
+            <Typography color="textSecondary">
+              {mostPointsPlayer.name}
+            </Typography>
+          </GridItem>}
       </Grid>
     </>
   )

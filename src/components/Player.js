@@ -2,15 +2,14 @@ import React from 'react'
 import { TextField, Select, MenuItem, FormControl, InputLabel, Grid, IconButton } from '@material-ui/core'
 import { Delete } from '@material-ui/icons'
 
-const Player = ({ availablePlayers, player, players, removePlayer, updatePlayer }) => {
-  const unavailablePlayers = players.map(p => p.player)
+const Player = ({ selectedPlayers, player, players, removePlayer, updatePlayer }) => {
+  const names = selectedPlayers.map(p => p.name)
 
   const updateSelection = (value) => {
     const newPlayer = {
       ...player,
-      player: value
+      name: value
     }
-
     updatePlayer(newPlayer)
   }
 
@@ -19,7 +18,6 @@ const Player = ({ availablePlayers, player, players, removePlayer, updatePlayer 
       ...player,
       points: Number(value)
     }
-
     updatePlayer(newPlayer)
   }
 
@@ -29,16 +27,14 @@ const Player = ({ availablePlayers, player, players, removePlayer, updatePlayer 
         <FormControl 
           fullWidth 
           variant='outlined'
-          required
-        >
+          required>
           <InputLabel id='player-label'>Player</InputLabel>
           <Select
             labelId='player-label'
             id='player'
-            value={player.player}
-            onChange={({ target }) => updateSelection(target.value)}
-          >
-            {availablePlayers.map(p => <MenuItem key={p} disabled={unavailablePlayers.includes(p)} value={p}>{p}</MenuItem>)}
+            value={player.name}
+            onChange={({ target }) => updateSelection(target.value)}>
+            {players.map(p => <MenuItem key={p.name} disabled={names.includes(p.name)} value={p.name}>{p.name}</MenuItem>)}
           </Select>
         </FormControl>
       </Grid>

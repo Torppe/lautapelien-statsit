@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Route } from 'react-router-dom'
 import { List } from '@material-ui/core';
 import { makeStyles, useTheme} from '@material-ui/core/styles';
@@ -12,6 +12,7 @@ import ListItemLink from './ListItemLink'
 import MenuIcon from '@material-ui/icons/Menu';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
+import gameService from '../services/games'
 import Games from './Games'
 import Game from './Game'
 
@@ -57,7 +58,20 @@ const ResponsiveDrawer = (props) => {
   const classes = useStyles()
   const theme = useTheme()
   const [mobileOpen, setMobileOpen] = useState(false)
-  const [header, setHeader] = useState('Otsikko')
+  const [header, setHeader] = useState('')
+
+  const [games, setGames] = useState([])
+
+  useEffect(() => {
+    gameService
+      .getAll()
+      .then(response => {
+        setGames(response.data)
+      })
+      .catch(error => {
+        console.log('failed to get game data')
+      })
+  }, [])
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -85,8 +99,7 @@ const ResponsiveDrawer = (props) => {
             aria-label="open drawer"
             edge="start"
             onClick={handleDrawerToggle}
-            className={classes.menuButton}
-          >
+            className={classes.menuButton}>
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap>
@@ -106,8 +119,7 @@ const ResponsiveDrawer = (props) => {
             }}
             ModalProps={{
               keepMounted: true, // Better open performance on mobile.
-            }}
-          >
+            }}>
             {drawer}
           </Drawer>
         </Hidden>
@@ -117,8 +129,7 @@ const ResponsiveDrawer = (props) => {
               paper: classes.drawerPaper,
             }}
             variant="permanent"
-            open
-          >
+            open>
             {drawer}
           </Drawer>
         </Hidden>
@@ -126,12 +137,11 @@ const ResponsiveDrawer = (props) => {
       <div className={classes.content}>
         <div className={classes.toolbar} />
           <Route exact path="/" render={() => setHeader('')} />
-          <Route exact path="/game-stats" render={() =>
-            <Games setHeader={setHeader} />
-          } />
-          <Route exact path="/game-stats/:game" render={({ match }) => 
-            <Game gameId={match.params.game} setHeader={setHeader}/>
-          } />
+          <Route exact path="/game-stats" render={() => {
+            setHeader('Games')
+            return <Games games={games} setGames={setGames}/>
+          }}/>
+          <Route exact path="/game-stats/:game" render={({ match }) => <Game gameId={match.params.game} setHeader={setHeader}/>}/>
       </div>
     </div>
   )

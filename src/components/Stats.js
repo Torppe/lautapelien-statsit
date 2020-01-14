@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useMemo }  from 'react'
 import { Bar, Pie, StackedBar, Line } from 'react-roughviz'
 import Grid from '@material-ui/core/Grid'
 import { Typography, Card, CardContent } from '@material-ui/core'
-import playerService from '../services/players'
 
 const GridItem = (props) => {
   const {title, value} = props
@@ -26,27 +25,32 @@ const GridItem = (props) => {
   )
 }
 
-const Stats = ({ matches }) => {
-  const [mostPointsPlayer, setMostPointsPlayer] = useState(null)
+const mostWins = (matches) => {
+  if(!matches)
+    return
+  
+  const matchArray = matches.map(m => m.players)
+  let playerMap = new Map()
+  for(let i=0; i < matchArray.length; i++) {
+    const winner = matchArray[i].reduce((prev, current) => (current.points > prev.points) ? current : prev)
+    const wins = playerMap.get(winner.player.name)
+    if(wins) {
+      playerMap.set(winner.player.name, wins + 1)
+    } else {
+      playerMap.set(winner.player.name, 1)
+    }
+  }
+  const result = [...playerMap.entries()].reduce((prev, current) => current[1] > prev[1] ? current : prev, [0,0])
+  return {name: result[0], wins: result[1]}
+}
+
+const Stats = ({matches}) => {
   const players = matches.map(m => m.players).flat()
   const points = players.map(p => p.points)
   const averagePoints = +(points.reduce((acc, item) => acc + item, 0) / points.length).toFixed(2)
-  const playerWithMostPoints = players.reduce((acc, item) => (item.points > acc.points) ? item : acc, {points: 0})
-  
-  useEffect(() => {
-    if(!playerWithMostPoints.player)
-      return
-      
-    playerService
-      .getById(playerWithMostPoints.player)
-      .then(response => {
-        setMostPointsPlayer({...playerWithMostPoints, name:response.data.name})
-      })
-      .catch(error => {
-        console.log('failed to fetch player data', error)
-      })
-  }, [playerWithMostPoints])
-  
+  const mostWinsPlayer = mostWins(matches)
+  const mostPointsPlayer = players.length > 0 ? players.reduce((acc, item) => (item.points > acc.points) ? item : acc) : null
+
   return (
     <>
       <Grid container spacing={2} justify='center'>
@@ -54,8 +58,14 @@ const Stats = ({ matches }) => {
         {mostPointsPlayer && 
           <GridItem title='Most points' value={mostPointsPlayer.points}>
             <Typography color="textSecondary">
-              {mostPointsPlayer.name}
+              {mostPointsPlayer.player.name}
             </Typography>
+          </GridItem>}
+        {mostWinsPlayer &&
+          <GridItem title='Most wins' value={mostWinsPlayer.wins}>
+            <Typography color="textSecondary">
+              {mostWinsPlayer.name}
+            </Typography>             
           </GridItem>}
       </Grid>
     </>

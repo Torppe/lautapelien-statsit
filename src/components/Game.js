@@ -23,15 +23,13 @@ const Game = ({ gameId, setHeader }) => {
       .then(response => {
         setHeader(response.data.title)
       })
-  }, [gameId])
+  }, [gameId, setHeader])
 
   const handleSubmit = (newPlayers) => {
     const newMatch = {
       game: gameId,
       players: newPlayers
     }
-
-    console.log(newMatch)
 
     matchService
       .create(newMatch)

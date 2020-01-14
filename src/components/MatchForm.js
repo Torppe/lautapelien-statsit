@@ -28,7 +28,7 @@ const MatchForm = ({ handleSubmit }) => {
     const submittedPlayers = validPlayers.map(vp => {
       const foundPlayer = players.find(p => p.name === vp.name)
       if(!foundPlayer)
-        return
+        return null
       
       return {
         player: foundPlayer.id,

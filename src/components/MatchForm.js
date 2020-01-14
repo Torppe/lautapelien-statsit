@@ -8,6 +8,10 @@ const MatchForm = ({ handleSubmit }) => {
   const [players, setPlayers] = useState([])
   const [selectedPlayers, setSelectedPlayers] = useState([])
 
+  let buttonStyle = {
+    marginTop: selectedPlayers.length > 0 ? '2em' : null
+  }
+
   useEffect(() => {
     playerService
       .getAll()
@@ -50,18 +54,18 @@ const MatchForm = ({ handleSubmit }) => {
       name: '',
       points: null
     }
-
     setSelectedPlayers([...selectedPlayers, newPlayer])
   }
 
   const removePlayer = (player) => {
-    setSelectedPlayers(selectedPlayers.filter(p => p.id !== player.id))
+    const newSelectedPlayers = selectedPlayers.filter(p => p.id !== player.id)
+    setSelectedPlayers(newSelectedPlayers)
   }
-
+  
   return (
     <div>
       <form onSubmit={addMatch}>
-        <Container maxWidth='md' disableGutters>
+        <Container maxWidth='sm' disableGutters>
           <Paper style={{padding: '2em'}}>
             {selectedPlayers.map(p =>
               <Player 
@@ -72,14 +76,16 @@ const MatchForm = ({ handleSubmit }) => {
                 removePlayer={removePlayer} 
                 updatePlayer={updatePlayer} />
               )}
-            <Grid container justify='space-between'>
-              <Grid item>
-                <Button variant='outlined' color='primary' onClick={addPlayer}>Add player</Button>
+            <Container disableGutters>
+              <Grid container justify='space-between' style={buttonStyle}>
+                <Grid item>
+                  <Button variant='outlined' color='primary' onClick={addPlayer}>Add player</Button>
+                </Grid>
+                <Grid item>
+                  <Button variant='contained' color='primary' type='submit'>Submit</Button>
+                </Grid>
               </Grid>
-              <Grid item>
-                <Button variant='contained' color='primary' type='submit'>Submit</Button>
-              </Grid>
-            </Grid>
+            </Container>
           </Paper>
         </Container>
       </form>

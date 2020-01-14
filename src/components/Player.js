@@ -23,7 +23,7 @@ const Player = ({ selectedPlayers, player, players, removePlayer, updatePlayer }
 
   return (
     <Grid container spacing={1} justify='center'>
-      <Grid item md={3} xs={5}>
+      <Grid item md={6} xs={5}>
         <FormControl 
           fullWidth 
           variant='outlined'
@@ -38,7 +38,7 @@ const Player = ({ selectedPlayers, player, players, removePlayer, updatePlayer }
           </Select>
         </FormControl>
       </Grid>
-      <Grid item md={3} xs={5}>
+      <Grid item md={5} xs={5}>
         <TextField
           fullWidth
           required

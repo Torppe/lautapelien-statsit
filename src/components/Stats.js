@@ -1,21 +1,42 @@
-import React, { useState, useEffect, useMemo }  from 'react'
+import React from 'react'
 import { Bar, Pie, StackedBar, Line } from 'react-roughviz'
 import Grid from '@material-ui/core/Grid'
-import { Typography, Card, CardContent } from '@material-ui/core'
+import { Typography, Card, CardContent, makeStyles } from '@material-ui/core'
+
+const useStyles = makeStyles({
+  item: {
+    width: '11.5em'
+  },
+  cardContent: {
+    padding: '0.4em 0.8em 0 1em',
+    "&:last-child": {
+      paddingBottom: '0.5em'
+    }
+  },
+  card: {
+    borderRadius: '10px'
+  },
+  title: {
+    fontSize: '1.8em',
+    lineHeight: '1.25em',
+    paddingBottom: '0.3em'
+  },
+})
 
 const GridItem = (props) => {
+  const classes = useStyles()
   const {title, value} = props
   if(!title || !value)
     return null
-
+  
   return (
-    <Grid item>
-      <Card>
-        <CardContent>
-          <Typography color="textSecondary" gutterBottom>
+    <Grid item className={classes.item}>
+      <Card className={classes.card}>
+        <CardContent className={classes.cardContent}>
+          <Typography className={classes.title} color="textSecondary">
             {title}
           </Typography>
-          <Typography variant="h5" component="h2">
+          <Typography align='right' variant="h5" component="h2">
             {value}
           </Typography>
           {props.children}
@@ -45,6 +66,7 @@ const mostWins = (matches) => {
 }
 
 const Stats = ({matches}) => {
+  
   const players = matches.map(m => m.players).flat()
   const points = players.map(p => p.points)
   const averagePoints = +(points.reduce((acc, item) => acc + item, 0) / points.length).toFixed(2)
@@ -54,18 +76,29 @@ const Stats = ({matches}) => {
   return (
     <>
       <Grid container spacing={2} justify='center'>
+        <GridItem title='Games played' value={matches.length}/>
         <GridItem title='Average points' value={averagePoints} />
         {mostPointsPlayer && 
           <GridItem title='Most points' value={mostPointsPlayer.points}>
-            <Typography color="textSecondary">
+            <Typography 
+              color='textSecondary'
+              variant='body2' 
+              component='p'
+              align='right'>
               {mostPointsPlayer.player.name}
             </Typography>
           </GridItem>}
         {mostWinsPlayer &&
-          <GridItem title='Most wins' value={mostWinsPlayer.wins}>
-            <Typography color="textSecondary">
+          <GridItem 
+            title='Most wins' 
+            value={mostWinsPlayer.wins}>
+            <Typography 
+              color='textSecondary' 
+              variant='body2' 
+              component='p'
+              align='right'>
               {mostWinsPlayer.name}
-            </Typography>             
+            </Typography>
           </GridItem>}
       </Grid>
     </>

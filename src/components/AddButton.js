@@ -16,7 +16,7 @@ const AddButton = props => {
   const classes = useStyles();
   return (
     <>
-      <Fab onClick={props.handleClick} className={classes.root} color="primary" aria-label="add">
+      <Fab onClick={props.handleClick} className={classes.root} color="secondary" aria-label="add">
         <AddIcon />
       </Fab>
     </>

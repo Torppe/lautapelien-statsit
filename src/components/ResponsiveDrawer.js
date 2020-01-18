@@ -42,7 +42,6 @@ const useStyles = makeStyles(theme => ({
   },
   toolbar: theme.mixins.toolbar,
   toolbarDrawer: {
-    backgroundColor: 'red',
     ...theme.mixins.toolbar
   },
   drawerPaper: {
@@ -92,7 +91,7 @@ const ResponsiveDrawer = (props) => {
   return (
     <div className={classes.root}>
       <CssBaseline />
-      <AppBar position="fixed" className={classes.appBar}>
+      <AppBar style={{boxShadow: 'none'}} color='primary' position="fixed" className={classes.appBar}>
         <Toolbar>
           <IconButton
             color="inherit"
@@ -102,7 +101,7 @@ const ResponsiveDrawer = (props) => {
             className={classes.menuButton}>
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" noWrap>
+          <Typography color='textPrimary' variant="h6" noWrap>
             {header}
           </Typography>
         </Toolbar>

@@ -6,22 +6,37 @@ import { createMuiTheme } from '@material-ui/core/styles';
 const theme = createMuiTheme({
   palette: {
     primary: {
-      light: '#ffc046',
-      main: '#ff8f00',
-      dark: '#c56000',
-      contrastText: '#000000',
+      main: '#FF9500',
+      contrastText: '#6E4B20'
     },
     secondary: {
-      light: '#ffffff',
-      main: '#f9fbe7',
-      dark: '#c6c8b5',
-      contrastText: '#000000',
+      main: '#ffd59a',
+      contrastText: '#6E4B20'
     },
+    text: {
+      primary: '#6E4B20',
+      secondary: '#9B8D75'
+    },
+    background: {
+      default: '#FF9500'
+    }
+    //top teksti #6f5128
+    //background #ffd59a
+    //uusi background #d7a662
+    //uusi teksti #574421
+    //2 background #d78e41
+    // secondary: {
+    //   light: '#ffffff',
+    //   main: '#f9fbe7',
+    //   dark: '#c6c8b5',
+    //   contrastText: '#000000',
+    // },
   },
   typography: {
     fontFamily: [
-      'Arial'
-    ]
+      'Arvo',
+      'serif',
+    ].join(','),
   },
 })
 

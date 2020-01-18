@@ -7,7 +7,7 @@ import gameService from '../services/games'
 const AddGame = ({value, handleGameChange, handleAddGame}) => {
   return(
     <form onSubmit={handleAddGame}>
-      <TextField id='new-game' label='Add game' variant='outlined' autoFocus value={value} onChange={handleGameChange}/>
+      <TextField id='new-game' label='Add game' variant='outlined' color='secondary' autoFocus value={value} onChange={handleGameChange}/>
     </form>     
   )
 }

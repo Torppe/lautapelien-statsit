@@ -58,7 +58,6 @@ const ResponsiveDrawer = (props) => {
   const theme = useTheme()
   const [mobileOpen, setMobileOpen] = useState(false)
   const [header, setHeader] = useState('')
-
   const [games, setGames] = useState([])
 
   useEffect(() => {

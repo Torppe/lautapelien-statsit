@@ -1,5 +1,4 @@
 import React from 'react'
-import { Bar, Pie, StackedBar, Line } from 'react-roughviz'
 import Grid from '@material-ui/core/Grid'
 import { Typography, Card, CardContent, makeStyles } from '@material-ui/core'
 
@@ -24,8 +23,7 @@ const useStyles = makeStyles({
 })
 
 const GridItem = (props) => {
-  const classes = useStyles()
-  const {title, value} = props
+  const {title, value, classes} = props
   if(!title || !value)
     return null
   
@@ -36,7 +34,7 @@ const GridItem = (props) => {
           <Typography className={classes.title} color="textSecondary">
             {title}
           </Typography>
-          <Typography align='right' variant="h5" component="h2">
+          <Typography align='right' variant="h4" component="h2">
             {value}
           </Typography>
           {props.children}
@@ -66,6 +64,7 @@ const mostWins = (matches) => {
 }
 
 const Stats = ({matches}) => {
+  const classes = useStyles()
   
   const players = matches.map(m => m.players).flat()
   const points = players.map(p => p.points)
@@ -76,13 +75,16 @@ const Stats = ({matches}) => {
   return (
     <>
       <Grid container spacing={2} justify='center'>
-        <GridItem title='Games played' value={matches.length}/>
-        <GridItem title='Average points' value={averagePoints} />
+        <GridItem title='Games played' value={matches.length} classes={classes}/>
+        <GridItem title='Average points' value={averagePoints} classes={classes}/>
         {mostPointsPlayer && 
-          <GridItem title='Most points' value={mostPointsPlayer.points}>
+          <GridItem 
+            title='Most points' 
+            value={mostPointsPlayer.points} 
+            classes={classes}>
             <Typography 
               color='textSecondary'
-              variant='body2' 
+              variant='body1' 
               component='p'
               align='right'>
               {mostPointsPlayer.player.name}
@@ -91,10 +93,11 @@ const Stats = ({matches}) => {
         {mostWinsPlayer &&
           <GridItem 
             title='Most wins' 
-            value={mostWinsPlayer.wins}>
+            value={mostWinsPlayer.wins}
+            classes={classes}>
             <Typography 
               color='textSecondary' 
-              variant='body2' 
+              variant='body1' 
               component='p'
               align='right'>
               {mostWinsPlayer.name}

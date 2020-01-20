@@ -1,18 +1,38 @@
 import React, { useState } from 'react'
-import { List, TextField } from '@material-ui/core'
-import ListItemLink from './ListItemLink'
+import { TextField, Grid, Card, CardContent, Typography, makeStyles } from '@material-ui/core'
+import { Link } from 'react-router-dom'
 import AddButton from './AddButton'
 import gameService from '../services/games'
 
-const AddGame = ({value, handleGameChange, handleAddGame}) => {
-  return(
+const useStyles = makeStyles({
+  item: {
+    width: '11.5em'
+  },
+  cardContent: {
+    bottom: 0,
+    position: 'absolute',
+    padding: '0.4em 0.8em 0 1em',
+    "&:last-child": {
+      paddingBottom: '0.5em'
+    }
+  },
+  card: {
+    position: 'relative',
+    borderRadius: '10px',
+    height: '10em'
+  },
+})
+
+const AddGame = ({ value, handleGameChange, handleAddGame }) => {
+  return (
     <form onSubmit={handleAddGame}>
-      <TextField id='new-game' label='Add game' variant='outlined' color='secondary' autoFocus value={value} onChange={handleGameChange}/>
-    </form>     
+      <TextField id='new-game' label='Add game' variant='outlined' color='secondary' autoFocus value={value} onChange={handleGameChange} />
+    </form>
   )
 }
 
-const Games = ({games, setGames}) => {
+const Games = ({ games, setGames }) => {
+  const classes = useStyles()
   const [newGame, setNewGame] = useState(null)
   const [isModifying, setIsModifying] = useState(false)
 
@@ -46,13 +66,26 @@ const Games = ({games, setGames}) => {
 
   return (
     <>
-      <List>
-        {games.map(g => 
-          <ListItemLink key={g.id} primary={g.title} to={`/game-stats/${g.id}`}/>
+      <Grid container spacing={2} justify='center'>
+        {games.map(g =>
+            <Grid 
+              key={g.id} 
+              item
+              className={classes.item}>
+              <Link to={`/game-stats/${g.id}`}>
+                <Card className={classes.card}>
+                    <CardContent className={classes.cardContent}>
+                      <Typography align='left' style={{fontSize: '1.2em'}}>
+                        {g.title}
+                      </Typography>
+                    </CardContent>
+                </Card>
+              </Link>
+            </Grid>
         )}
-      </List>
-      {isModifying && <AddGame value={newGame} handleGameChange={handleGameChange} handleAddGame={handleAddGame}/>}
-      <AddButton handleClick={handleClick}/>
+      </Grid>
+      {isModifying && <AddGame value={newGame} handleGameChange={handleGameChange} handleAddGame={handleAddGame} />}
+      <AddButton handleClick={handleClick} />
     </>
   )
 }

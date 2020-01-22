@@ -13,14 +13,16 @@ const MatchForm = ({ handleSubmit }) => {
   }
 
   useEffect(() => {
-    playerService
-      .getAll()
-      .then(response => {
-        setPlayers(response.data)
-      })
-      .catch(error => {
-        console.log("failed to fetch player data", error)
-      })
+    const fetchPlayers = async () => {
+      try {
+        const results = await playerService.getAll()
+        setPlayers(results)
+      } catch (error) {
+        console.log('failed to fetch player data', error)
+      }
+    }
+
+    fetchPlayers()
   }, [])
 
   const addMatch = (event) => {

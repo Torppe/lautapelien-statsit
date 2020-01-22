@@ -1,9 +1,9 @@
-import React from 'react';
+import React from 'react'
 import ResponsiveDrawer from './components/ResponsiveDrawer'
 import { BrowserRouter as Router } from 'react-router-dom'
 
 const App = () => {
-  return(
+  return (
     <div>
       <Router>
         <ResponsiveDrawer/>

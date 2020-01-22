@@ -31,7 +31,7 @@ const AddGame = ({ value, handleGameChange, handleAddGame }) => {
   )
 }
 
-const Games = ({ games, setGames }) => {
+const Games = ({ games, setGames, user }) => {
   const classes = useStyles()
   const [newGame, setNewGame] = useState(null)
   const [isModifying, setIsModifying] = useState(false)
@@ -42,17 +42,15 @@ const Games = ({ games, setGames }) => {
     const newObject = {
       title: newGame
     }
-
-    gameService
-      .create(newObject)
-      .then(response => {
-        setGames([...games, response.data])
-        setIsModifying(false)
-        setNewGame('')
-      })
-      .catch(error => {
-        console.log('failed to create game')
-      })
+    
+    try {
+      const result = await gameService.create(newObject)
+      setGames([...games, result])
+      setIsModifying(false)
+      setNewGame('')
+    } catch (error) {
+      console.log('failed to create game', error)
+    }
   }
 
   const handleClick = () => {
@@ -84,8 +82,8 @@ const Games = ({ games, setGames }) => {
             </Grid>
         )}
       </Grid>
-      {isModifying && <AddGame value={newGame} handleGameChange={handleGameChange} handleAddGame={handleAddGame} />}
-      <AddButton handleClick={handleClick} />
+      {user && isModifying && <AddGame value={newGame} handleGameChange={handleGameChange} handleAddGame={handleAddGame} />}
+      {user && <AddButton handleClick={handleClick}/>}
     </>
   )
 }

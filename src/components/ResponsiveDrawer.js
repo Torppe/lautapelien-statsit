@@ -13,8 +13,10 @@ import MenuIcon from '@material-ui/icons/Menu';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import gameService from '../services/games'
+import loginService from '../services/login'
 import Games from './Games'
 import Game from './Game'
+import Login from './Login';
 
 const drawerWidth = 240;
 
@@ -59,16 +61,29 @@ const ResponsiveDrawer = (props) => {
   const [mobileOpen, setMobileOpen] = useState(false)
   const [header, setHeader] = useState('')
   const [games, setGames] = useState([])
+  const [user, setUser] = useState(null)
 
   useEffect(() => {
-    gameService
-      .getAll()
-      .then(response => {
-        setGames(response.data)
-      })
-      .catch(error => {
-        console.log('failed to get game data')
-      })
+    const loggedUserJSON = window.localStorage.getItem('loggedTabletopAppUser')
+    
+    if(loggedUserJSON) {
+      const loggedUser = JSON.parse(loggedUserJSON)
+      if(loggedUser) {
+        setUser(loggedUser)
+        loginService.setToken(loggedUser.token)
+      }
+    }
+    
+    const fetchGames = async () => {
+      const results = await gameService.getAll()
+      setGames(results)
+    }
+
+    try {
+      fetchGames()
+    } catch(error) {
+      console.log('failed to fetch game data')
+    }
   }, [])
 
   const handleDrawerToggle = () => {
@@ -134,12 +149,17 @@ const ResponsiveDrawer = (props) => {
       </div>
       <div className={classes.content}>
         <div className={classes.toolbar} />
-          <Route exact path="/" render={() => setHeader('')} />
+          <Route exact path="/" render={() => {
+            setHeader('')
+            return <Login setUser={setUser} user={user}/>
+          }}/>
           <Route exact path="/game-stats" render={() => {
             setHeader('Games')
-            return <Games games={games} setGames={setGames}/>
+            return <Games games={games} setGames={setGames} user={user}/>
           }}/>
-          <Route exact path="/game-stats/:game" render={({ match }) => <Game gameId={match.params.game} setHeader={setHeader}/>}/>
+          <Route exact path="/game-stats/:game" render={({ match }) => {
+            return <Game gameId={match.params.game} setHeader={setHeader} user={user}/>
+          }}/>
       </div>
     </div>
   )

@@ -1,16 +1,25 @@
 import axios from 'axios'
+import loginService from './login'
+
 const baseUrl = '/api/games'
 
-const getAll = () => {
-  return axios.get(baseUrl)
+const getAll = async () => {
+  const result = await axios.get(baseUrl)
+  return result.data
 }
 
-const getById = (id) => {
-  return axios.get(`${baseUrl}/${id}`)
+const getById = async (id) => {
+  const result = axios.get(`${baseUrl}/${id}`)
+  return result.data
 }
 
-const create = newObject => {
-  return axios.post(baseUrl, newObject)
+const create = async newObject => {
+  const config = {
+    headers: { Authorization: loginService.getToken()}
+  }
+
+  const result = await axios.post(baseUrl, newObject, config)
+  return result.data
 }
 
 export default {

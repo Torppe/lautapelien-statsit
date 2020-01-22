@@ -5,47 +5,51 @@ import AddButton from './AddButton'
 import matchService from '../services/matches'
 import gameService from '../services/games'
 
-const Game = ({ gameId, setHeader }) => {
+const Game = ({ gameId, setHeader, user }) => {
   const [matches, setMatches] = useState([])
   const [isModified, setIsModified] = useState(false)
 
   useEffect(() => {
-    matchService
-      .getByGame(gameId)
-      .then(response => {
-        setMatches(response.data)
-      })
-      .catch(error => {
+    const fetchGame = async () => {
+      try {
+        const results = await matchService.getByGame(gameId)
+        setMatches(results)
+        } catch(error) {
         console.log('failed to get match data', error)
-      })
-    gameService
-      .getById(gameId)
-      .then(response => {
-        setHeader(response.data.title)
-      })
+      }
+    }
+    const fetchHeader = async () => {
+      try {
+        const result = await gameService.getById(gameId)
+        setHeader(result)
+      } catch(error) {
+        console.log('failed to fetch header', error)
+      }
+    }
+
+    fetchGame()
+    fetchHeader()
   }, [gameId, setHeader])
 
-  const handleSubmit = (newPlayers) => {
+  const handleSubmit = async (newPlayers) => {
     const newMatch = {
       game: gameId,
       players: newPlayers
     }
-
-    matchService
-      .create(newMatch)
-      .then(response => {
-        setMatches([...matches, response.data])
-        setIsModified(false)
-      })
-      .catch(error => {
-        console.log('failed to create a new match', error)
-      })
+    
+    try {
+      const result = await matchService.create(newMatch)
+      setMatches([...matches, result])
+      setIsModified(false)
+    } catch (error) {
+      console.log('failed to create a new match', error)
+    }
   }
 
   return (
     <>
-      <AddButton handleClick={() => setIsModified(!isModified)}/>
-      {isModified ? <MatchForm handleSubmit={handleSubmit}/> : <Stats matches={matches}/>}
+      {user && <AddButton handleClick={() => setIsModified(!isModified)}/>}
+      {user && isModified ? <MatchForm handleSubmit={handleSubmit}/> : <Stats matches={matches}/>}
     </>
   )
 }

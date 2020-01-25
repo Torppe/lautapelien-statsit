@@ -9,7 +9,9 @@ import {
   Dialog,
   DialogActions,
   DialogTitle,
-  Button
+  Button,
+  OutlinedInput,
+  FormControl
 } from '@material-ui/core'
 import { Link } from 'react-router-dom'
 import AddButton from './AddButton'
@@ -32,10 +34,14 @@ const useStyles = makeStyles({
     borderRadius: '10px',
     height: '10em'
   },
+  input: {
+    backgroundColor: 'white',
+  }
 })
 
 const AddGame = ({ value, handleGameChange, handleAddGame, setIsModifying }) => {
   const [dialogOpen, setDialogOpen] = useState(false)
+  const classes = useStyles()
 
   const handleConfirm = (event) => {
     event.preventDefault()
@@ -44,6 +50,11 @@ const AddGame = ({ value, handleGameChange, handleAddGame, setIsModifying }) => 
 
   const handleClose = () => {
     setDialogOpen(false)
+  }
+
+  const handleBlur = () => {
+    if (!dialogOpen)
+      setIsModifying(false)
   }
 
   return (
@@ -55,29 +66,34 @@ const AddGame = ({ value, handleGameChange, handleAddGame, setIsModifying }) => 
         aria-describedby="alert-dialog-description">
         <DialogTitle id="alert-dialog-title">Add a new game called "{value}"?</DialogTitle>
         <DialogActions>
-          <Button 
-            onClick={handleClose} 
+          <Button
+            onClick={handleClose}
             color='primary'
             variant='outlined'>
             Cancel
           </Button>
-          <Button 
-            onClick={handleAddGame} 
-            color='primary' 
+          <Button
+            onClick={handleAddGame}
+            color='primary'
             variant='contained'>
             Confirm
           </Button>
         </DialogActions>
       </Dialog>
       <form onSubmit={handleConfirm}>
-        <TextField 
-          id='new-game' 
-          label='Add game' 
-          variant='outlined'
-          color='secondary' 
-          autoFocus value={value} 
-          onChange={handleGameChange}
-        />
+        <FormControl variant='outlined'>
+          <OutlinedInput
+            id='new-game'
+            placeholder='Add game'
+            variant='outlined'
+            color='secondary'
+            className={classes.input}
+            autoFocus
+            value={value}
+            onBlur={handleBlur}
+            onChange={handleGameChange}
+          />
+        </FormControl>
       </form>
     </>
   )

@@ -59,8 +59,6 @@ const Game = ({ gameId, setHeader, user }) => {
 
   return (
     <>
-      {/* {user && <AddButton handleClick={() => setIsModified(!isModified)}/>} */}
-      {/* {user && isModified ? <MatchForm handleSubmit={handleSubmit}/> : <Stats matches={matches}/>} */}
       {!isModified && <Stats matches={matches}/>}
       {userContent()}
     </>

@@ -1,5 +1,16 @@
 import React, { useState } from 'react'
-import { TextField, Grid, Card, CardContent, Typography, makeStyles } from '@material-ui/core'
+import {
+  TextField,
+  Grid,
+  Card,
+  CardContent,
+  Typography,
+  makeStyles,
+  Dialog,
+  DialogActions,
+  DialogTitle,
+  Button
+} from '@material-ui/core'
 import { Link } from 'react-router-dom'
 import AddButton from './AddButton'
 import gameService from '../services/games'
@@ -24,10 +35,51 @@ const useStyles = makeStyles({
 })
 
 const AddGame = ({ value, handleGameChange, handleAddGame, setIsModifying }) => {
+  const [dialogOpen, setDialogOpen] = useState(false)
+
+  const handleConfirm = (event) => {
+    event.preventDefault()
+    setDialogOpen(true)
+  }
+
+  const handleClose = () => {
+    setDialogOpen(false)
+  }
+
   return (
-    <form onSubmit={handleAddGame}>
-      <TextField id='new-game' label='Add game' variant='outlined' onBlur={() => setIsModifying(false)} color='secondary' autoFocus value={value} onChange={handleGameChange} />
-    </form>
+    <>
+      <Dialog
+        open={dialogOpen}
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description">
+        <DialogTitle id="alert-dialog-title">Add a new game called "{value}"?</DialogTitle>
+        <DialogActions>
+          <Button 
+            onClick={handleClose} 
+            color='primary'
+            variant='outlined'>
+            Cancel
+          </Button>
+          <Button 
+            onClick={handleAddGame} 
+            color='primary' 
+            variant='contained'>
+            Confirm
+          </Button>
+        </DialogActions>
+      </Dialog>
+      <form onSubmit={handleConfirm}>
+        <TextField 
+          id='new-game' 
+          label='Add game' 
+          variant='outlined'
+          color='secondary' 
+          autoFocus value={value} 
+          onChange={handleGameChange}
+        />
+      </form>
+    </>
   )
 }
 
@@ -38,8 +90,7 @@ const Games = ({ games, setGames, user, setHeader }) => {
   const [newGame, setNewGame] = useState(null)
   const [isModifying, setIsModifying] = useState(false)
 
-  const handleAddGame = async (event) => {
-    event.preventDefault()
+  const handleAddGame = async () => {
 
     const newObject = {
       title: newGame
@@ -70,13 +121,13 @@ const Games = ({ games, setGames, user, setHeader }) => {
 
     return (
       <>
-        {isModifying && 
-        <AddGame 
-          value={newGame} 
-          handleGameChange={handleGameChange} 
-          handleAddGame={handleAddGame}
-          setIsModifying={setIsModifying}
-        />}
+        {isModifying &&
+          <AddGame
+            value={newGame}
+            handleGameChange={handleGameChange}
+            handleAddGame={handleAddGame}
+            setIsModifying={setIsModifying}
+          />}
         {!isModifying && <AddButton handleClick={handleClick} />}
       </>
     )

@@ -8,7 +8,7 @@ const useStyles = makeStyles({
   },
   cardContent: {
     padding: '0.4em 0.8em 0 1em',
-    "&:last-child": {
+    '&:last-child': {
       paddingBottom: '0.5em'
     }
   },
@@ -31,10 +31,10 @@ const GridItem = (props) => {
     <Grid item className={classes.item}>
       <Card className={classes.card}>
         <CardContent className={classes.cardContent}>
-          <Typography className={classes.title} color="textSecondary">
+          <Typography className={classes.title} color='textSecondary'>
             {title}
           </Typography>
-          <Typography align='right' variant="h4" component="h2">
+          <Typography align='right' variant='h4' component='h2'>
             {value}
           </Typography>
           {props.children}

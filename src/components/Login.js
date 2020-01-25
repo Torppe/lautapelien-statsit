@@ -1,10 +1,14 @@
 import React, { useState } from 'react'
-import { FormControl, OutlinedInput, Button, Grid, makeStyles } from '@material-ui/core'
+import { FormControl, OutlinedInput, Button, Grid, makeStyles, Typography } from '@material-ui/core'
 import loginService from '../services/login'
 
 const storageKey = 'loggedTabletopAppUser'
 
 const useStyles = makeStyles(theme => ({
+  heading: {
+    marginTop: '65px',
+    marginBottom: '65px'
+  },
   button: {
     width: '150px',
     borderRadius: '40px',
@@ -117,6 +121,14 @@ const Login = ({ setUser, user, setHeader }) => {
           alignItems='center'
           direction='column'
           className={classes.container}>
+          <Grid item className={classes.heading}>
+            <Typography component='h2' variant='h4' color='textPrimary' gutterBottom>
+              Keep track of
+            </Typography>
+            <Typography component='h2' variant='h4' color='textPrimary'>
+              Tabletop stats
+            </Typography>
+          </Grid>
           {user === null ? loginForm() : logoutForm()}
         </Grid>
       </form>

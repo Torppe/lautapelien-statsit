@@ -1,5 +1,15 @@
 import React, { useState, useEffect } from 'react'
-import { Button, Grid, Paper, Container, IconButton, makeStyles } from '@material-ui/core'
+import { 
+  Button, 
+  Grid,
+  Paper, 
+  Container, 
+  IconButton, 
+  makeStyles,
+  Dialog,
+  DialogTitle,
+  DialogActions
+} from '@material-ui/core'
 import Player from './Player'
 import playerService from '../services/players'
 import uuid from 'react-uuid'
@@ -17,6 +27,7 @@ const useStyles = makeStyles({
 const MatchForm = ({ handleSubmit, handleCloseForm }) => {
   const [players, setPlayers] = useState([])
   const [selectedPlayers, setSelectedPlayers] = useState([])
+  const [dialogOpen, setDialogOpen] = useState(false)
   const classes = useStyles()
 
   let buttonStyle = {
@@ -37,17 +48,16 @@ const MatchForm = ({ handleSubmit, handleCloseForm }) => {
     fetchPlayers()
   }, [])
 
-  const addMatch = (event) => {
-    event.preventDefault()
+  const addMatch = () => {
     const validPlayers = selectedPlayers.filter(p => p.name)
-    if(validPlayers.length < 1)
+    if (validPlayers.length < 1)
       return
-    
+
     const submittedPlayers = validPlayers.map(vp => {
       const foundPlayer = players.find(p => p.name === vp.name)
-      if(!foundPlayer)
+      if (!foundPlayer)
         return null
-      
+
       return {
         player: foundPlayer.id,
         points: vp.points
@@ -75,27 +85,58 @@ const MatchForm = ({ handleSubmit, handleCloseForm }) => {
     const newSelectedPlayers = selectedPlayers.filter(p => p.id !== player.id)
     setSelectedPlayers(newSelectedPlayers)
   }
-  
+
+  const handleClose = () => {
+    setDialogOpen(false)
+  }
+
+  const handleConfirm = (event) => {
+    event.preventDefault()
+
+    setDialogOpen(true)
+  }
+
   return (
     <div>
-      <form onSubmit={addMatch}>
+      <Dialog
+        open={dialogOpen}
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description">
+        <DialogTitle id="alert-dialog-title">Add a new match?</DialogTitle>
+        <DialogActions>
+          <Button
+            onClick={handleClose}
+            color='primary'
+            variant='outlined'>
+            Cancel
+          </Button>
+          <Button
+            onClick={addMatch}
+            color='primary'
+            variant='contained'>
+            Confirm
+          </Button>
+        </DialogActions>
+      </Dialog>
+      <form onSubmit={handleConfirm}>
         <Container maxWidth='sm' disableGutters>
-          <Paper style={{padding: '2em'}}>
-            <IconButton 
+          <Paper style={{ padding: '2em' }}>
+            <IconButton
               onClick={handleCloseForm}
               aira-label='cancel'
               className={classes.cancelButton}>
               <Cancel />
             </IconButton>
             {selectedPlayers.map(p =>
-              <Player 
-                key={p.id} 
-                player={p} 
-                players={players} 
-                selectedPlayers={selectedPlayers} 
-                removePlayer={removePlayer} 
+              <Player
+                key={p.id}
+                player={p}
+                players={players}
+                selectedPlayers={selectedPlayers}
+                removePlayer={removePlayer}
                 updatePlayer={updatePlayer} />
-              )}
+            )}
             <Container disableGutters>
               <Grid container justify='space-between' style={buttonStyle}>
                 <Grid item>

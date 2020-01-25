@@ -4,15 +4,33 @@ import loginService from '../services/login'
 
 const storageKey = 'loggedTabletopAppUser'
 
-const useStyles = makeStyles({
-  item: {
-    width: '11.5em'
+const useStyles = makeStyles(theme => ({
+  button: {
+    width: '150px',
+    borderRadius: '40px',
+    padding: '15px 30px',
+    marginTop: '1em'
+  },
+  input: {
+    backgroundColor: 'white',
+    borderRadius: '40px',
+    textAlign: 'center',
+  },
+  container: {
+    [theme.breakpoints.down('xs')]: {
+      position: 'fixed',
+      bottom: '50px',
+      right: 0
+    },
   }
-})
+}))
 
-const Login = ({ setUser, user }) => {
+const Login = ({ setUser, user, setHeader }) => {
+  setHeader('Login')
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
+
+  const classes = useStyles()
 
   const handleLogin = async (event) => {
     event.preventDefault()
@@ -41,66 +59,67 @@ const Login = ({ setUser, user }) => {
   }
 
   const loginForm = () => (
-    <form onSubmit={handleLogin}>
-      <Grid
-        container
-        spacing={2}
-        justify='center'
-        alignItems='center'
-        direction='column'>
-        <Grid item>
-          <FormControl variant='outlined'>
-            <OutlinedInput
-              id='username'
-              value={username}
-              color='secondary'
-              placeholder='username'
-              style={{ backgroundColor: 'white', borderRadius: '40px' }}
-              inputProps={{ style: { textAlign: 'center' } }}
-              onChange={({ target }) => setUsername(target.value)} />
-          </FormControl>
-        </Grid>
-        <Grid item>
-          <FormControl variant='outlined'>
-            <OutlinedInput
-              id='password'
-              value={password}
-              type='password'
-              placeholder='password'
-              color='secondary'
-              style={{ backgroundColor: 'white', borderRadius: '40px' }}
-              inputProps={{ style: { textAlign: 'center' } }}
-              onChange={({ target }) => setPassword(target.value)} />
-          </FormControl>
-        </Grid>
-        <Grid item>
-          <Button
-            variant='contained'
+    <>
+      <Grid item>
+        <FormControl variant='outlined'>
+          <OutlinedInput
+            id='username'
+            value={username}
             color='secondary'
-            type='submit'
-            style={{ borderRadius: '40px', padding: '15px 30px', marginTop: '1em' }}>
-            login
-          </Button>
-        </Grid>
+            placeholder='username'
+            className={classes.input}
+            inputProps={{ style: { textAlign: 'center' } }}
+            onChange={({ target }) => setUsername(target.value)} />
+        </FormControl>
       </Grid>
-    </form>
+      <Grid item>
+        <FormControl variant='outlined'>
+          <OutlinedInput
+            id='password'
+            value={password}
+            type='password'
+            placeholder='password'
+            color='secondary'
+            className={classes.input}
+            inputProps={{ style: { textAlign: 'center' } }}
+            onChange={({ target }) => setPassword(target.value)} />
+        </FormControl>
+      </Grid>
+      <Grid item>
+        <Button
+          type='submit'
+          variant='contained'
+          color='secondary'
+          className={classes.button}>
+          login
+          </Button>
+      </Grid>
+    </>
   )
 
   const logoutForm = () => (
-    <form onSubmit={handleLogout}>
-      <Button
-        variant='contained'
-        color='secondary'
-        type='submit'
-        style={{ borderRadius: '40px', padding: '15px 30px', marginTop: '1em' }}>
-        logout
-      </Button>
-    </form>
+    <Button
+      variant='contained'
+      color='secondary'
+      type='submit'
+      className={classes.button}>
+      logout
+    </Button>
   )
 
   return (
     <div>
-      {user === null ? loginForm() : logoutForm()}
+      <form onSubmit={user === null ? handleLogin : handleLogout}>
+        <Grid
+          container
+          spacing={2}
+          justify='center'
+          alignItems='center'
+          direction='column'
+          className={classes.container}>
+          {user === null ? loginForm() : logoutForm()}
+        </Grid>
+      </form>
     </div>
   )
 }

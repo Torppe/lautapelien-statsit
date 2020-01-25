@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { TextField, Grid, Card, CardContent, Typography, makeStyles } from '@material-ui/core'
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import AddButton from './AddButton'
 import gameService from '../services/games'
 
@@ -23,15 +23,17 @@ const useStyles = makeStyles({
   },
 })
 
-const AddGame = ({ value, handleGameChange, handleAddGame }) => {
+const AddGame = ({ value, handleGameChange, handleAddGame, setIsModifying }) => {
   return (
     <form onSubmit={handleAddGame}>
-      <TextField id='new-game' label='Add game' variant='outlined' color='secondary' autoFocus value={value} onChange={handleGameChange} />
+      <TextField id='new-game' label='Add game' variant='outlined' onBlur={() => setIsModifying(false)} color='secondary' autoFocus value={value} onChange={handleGameChange} />
     </form>
   )
 }
 
-const Games = ({ games, setGames, user }) => {
+const Games = ({ games, setGames, user, setHeader }) => {
+  setHeader('Games')
+
   const classes = useStyles()
   const [newGame, setNewGame] = useState(null)
   const [isModifying, setIsModifying] = useState(false)
@@ -42,7 +44,7 @@ const Games = ({ games, setGames, user }) => {
     const newObject = {
       title: newGame
     }
-    
+
     try {
       const result = await gameService.create(newObject)
       setGames([...games, result])
@@ -62,28 +64,49 @@ const Games = ({ games, setGames, user }) => {
     setNewGame(event.target.value)
   }
 
+  const userContent = () => {
+    if (!user)
+      return null
+
+    return (
+      <>
+        {isModifying && 
+        <AddGame 
+          value={newGame} 
+          handleGameChange={handleGameChange} 
+          handleAddGame={handleAddGame}
+          setIsModifying={setIsModifying}
+        />}
+        {!isModifying && <AddButton handleClick={handleClick} />}
+      </>
+    )
+  }
+
+  const gamesContent = () => (
+    <Grid container spacing={2} justify='center'>
+      {games.map(g =>
+        <Grid
+          key={g.id}
+          item
+          className={classes.item}>
+          <Link to={`/game-stats/${g.id}`}>
+            <Card className={classes.card}>
+              <CardContent className={classes.cardContent}>
+                <Typography align='left' style={{ fontSize: '1.2em' }}>
+                  {g.title}
+                </Typography>
+              </CardContent>
+            </Card>
+          </Link>
+        </Grid>
+      )}
+    </Grid>
+  )
+
   return (
     <>
-      <Grid container spacing={2} justify='center'>
-        {games.map(g =>
-            <Grid 
-              key={g.id} 
-              item
-              className={classes.item}>
-              <Link to={`/game-stats/${g.id}`}>
-                <Card className={classes.card}>
-                    <CardContent className={classes.cardContent}>
-                      <Typography align='left' style={{fontSize: '1.2em'}}>
-                        {g.title}
-                      </Typography>
-                    </CardContent>
-                </Card>
-              </Link>
-            </Grid>
-        )}
-      </Grid>
-      {user && isModifying && <AddGame value={newGame} handleGameChange={handleGameChange} handleAddGame={handleAddGame} />}
-      {user && <AddButton handleClick={handleClick}/>}
+      {!isModifying && gamesContent()}
+      {userContent()}
     </>
   )
 }

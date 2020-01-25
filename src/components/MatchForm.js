@@ -1,16 +1,28 @@
 import React, { useState, useEffect } from 'react'
-import { Button, Grid, Paper, Container } from '@material-ui/core'
+import { Button, Grid, Paper, Container, IconButton, makeStyles } from '@material-ui/core'
 import Player from './Player'
 import playerService from '../services/players'
 import uuid from 'react-uuid'
+import { Cancel } from '@material-ui/icons'
 
-const MatchForm = ({ handleSubmit }) => {
+const useStyles = makeStyles({
+  cancelButton: {
+    float: 'right',
+    marginTop: '-30px',
+    marginRight: '-30px',
+    marginBottom: '15px'
+  }
+})
+
+const MatchForm = ({ handleSubmit, handleCloseForm }) => {
   const [players, setPlayers] = useState([])
   const [selectedPlayers, setSelectedPlayers] = useState([])
+  const classes = useStyles()
 
   let buttonStyle = {
     marginTop: selectedPlayers.length > 0 ? '2em' : null
   }
+
 
   useEffect(() => {
     const fetchPlayers = async () => {
@@ -69,6 +81,12 @@ const MatchForm = ({ handleSubmit }) => {
       <form onSubmit={addMatch}>
         <Container maxWidth='sm' disableGutters>
           <Paper style={{padding: '2em'}}>
+            <IconButton 
+              onClick={handleCloseForm}
+              aira-label='cancel'
+              className={classes.cancelButton}>
+              <Cancel />
+            </IconButton>
             {selectedPlayers.map(p =>
               <Player 
                 key={p.id} 

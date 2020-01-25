@@ -43,9 +43,6 @@ const useStyles = makeStyles(theme => ({
     },
   },
   toolbar: theme.mixins.toolbar,
-  toolbarDrawer: {
-    ...theme.mixins.toolbar
-  },
   drawerPaper: {
     width: drawerWidth,
   },
@@ -87,7 +84,11 @@ const ResponsiveDrawer = (props) => {
   }, [])
 
   const handleDrawerToggle = () => {
-    setMobileOpen(!mobileOpen);
+    setMobileOpen(!mobileOpen)
+  }
+  const handlePageTransition = () => {
+    if(mobileOpen)
+      setMobileOpen(false)
   }
 
   const drawer = (
@@ -96,8 +97,8 @@ const ResponsiveDrawer = (props) => {
       </div>
       <Divider />
       <List>
-          <ListItemLink key='Home' to='/' primary='Home'/>
-          <ListItemLink key='Games' to='/game-stats' primary='Games' />
+          <ListItemLink key='Home' to='/' primary='Home' handlePageTransition={() => handlePageTransition()}/>
+          <ListItemLink key='Games' to='/game-stats' primary='Games' handlePageTransition={() => handlePageTransition()}/>
       </List>
     </div>
   )
@@ -120,7 +121,7 @@ const ResponsiveDrawer = (props) => {
           </Typography>
         </Toolbar>
       </AppBar>
-      <div className={classes.drawer} aria-label="games stats">
+      <div className={classes.drawer}>
         <Hidden smUp implementation="css">
           <Drawer
             variant="temporary"
@@ -131,7 +132,7 @@ const ResponsiveDrawer = (props) => {
               paper: classes.drawerPaper,
             }}
             ModalProps={{
-              keepMounted: true, // Better open performance on mobile.
+              keepMounted: true,
             }}>
             {drawer}
           </Drawer>
@@ -149,17 +150,15 @@ const ResponsiveDrawer = (props) => {
       </div>
       <div className={classes.content}>
         <div className={classes.toolbar} />
-          <Route exact path="/" render={() => {
-            setHeader('')
-            return <Login setUser={setUser} user={user}/>
-          }}/>
-          <Route exact path="/game-stats" render={() => {
-            setHeader('Games')
-            return <Games games={games} setGames={setGames} user={user}/>
-          }}/>
-          <Route exact path="/game-stats/:game" render={({ match }) => {
-            return <Game gameId={match.params.game} setHeader={setHeader} user={user}/>
-          }}/>
+          <Route exact path="/" render={() => 
+            <Login setUser={setUser} user={user} setHeader={setHeader}/>}
+          />
+          <Route exact path="/game-stats" render={() => 
+            <Games games={games} setGames={setGames} user={user} setHeader={setHeader}/>}
+          />
+          <Route exact path="/game-stats/:game" render={({ match }) => 
+            <Game gameId={match.params.game} setHeader={setHeader} user={user}/>}
+          />
       </div>
     </div>
   )

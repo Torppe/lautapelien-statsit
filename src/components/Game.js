@@ -21,7 +21,7 @@ const Game = ({ gameId, setHeader, user }) => {
     const fetchHeader = async () => {
       try {
         const result = await gameService.getById(gameId)
-        setHeader(result)
+        setHeader(result.title)
       } catch(error) {
         console.log('failed to fetch header', error)
       }
@@ -46,10 +46,23 @@ const Game = ({ gameId, setHeader, user }) => {
     }
   }
 
+  const userContent = () => {
+    if(!user)
+      return null
+
+    return(
+      <>
+        {isModified ? <MatchForm handleSubmit={handleSubmit} handleCloseForm={() => setIsModified(false)}/> : <AddButton handleClick={() => setIsModified(true)}/>}
+      </>
+    )
+  }
+
   return (
     <>
-      {user && <AddButton handleClick={() => setIsModified(!isModified)}/>}
-      {user && isModified ? <MatchForm handleSubmit={handleSubmit}/> : <Stats matches={matches}/>}
+      {/* {user && <AddButton handleClick={() => setIsModified(!isModified)}/>} */}
+      {/* {user && isModified ? <MatchForm handleSubmit={handleSubmit}/> : <Stats matches={matches}/>} */}
+      {!isModified && <Stats matches={matches}/>}
+      {userContent()}
     </>
   )
 }

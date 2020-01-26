@@ -18,6 +18,7 @@ import Games from './Games'
 import Game from './Game'
 import Login from './Login';
 import Users from './users/Users'
+import User from './users/User'
 
 const drawerWidth = 240;
 
@@ -97,7 +98,7 @@ const ResponsiveDrawer = (props) => {
       <div className={classes.toolbar}>
       </div>
       <Divider />
-      <List>
+      <List disablePadding>
           <ListItemLink key='Home' to='/' primary='Home' handlePageTransition={() => handlePageTransition()}/>
           <ListItemLink key='Games' to='/game-stats' primary='Games' handlePageTransition={() => handlePageTransition()}/>
           <ListItemLink key='Players' to='/player-stats' primary='Players' handlePageTransition={() => handlePageTransition()}/>
@@ -158,11 +159,14 @@ const ResponsiveDrawer = (props) => {
           <Route exact path="/game-stats" render={() => 
             <Games games={games} setGames={setGames} user={user} setHeader={setHeader}/>}
           />
+          <Route exact path="/game-stats/:game" render={({ match }) => 
+            <Game gameId={match.params.game} setHeader={setHeader} user={user}/>}
+          />
           <Route exact path="/player-stats" render={() => 
             <Users setHeader={setHeader}/>}
           />
-          <Route exact path="/game-stats/:game" render={({ match }) => 
-            <Game gameId={match.params.game} setHeader={setHeader} user={user}/>}
+          <Route exact path="/player-stats/:player" render={({ match }) => 
+            <User playerId={match.params.player} setHeader={setHeader} user={user}/>}
           />
       </div>
     </div>

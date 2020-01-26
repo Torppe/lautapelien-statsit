@@ -12,6 +12,11 @@ const getByGame = async (id) => {
   return results.data
 }
 
+const getByPlayer = async (id) => {
+  const results = await axios.get(`${baseUrl}/player/${id}`)
+  return results.data
+}
+
 const create = async newObject => {
   const config = {
     headers: { Authorization: loginService.getToken()}
@@ -24,5 +29,6 @@ const create = async newObject => {
 export default {
   getAll,
   create,
-  getByGame
+  getByGame,
+  getByPlayer
 }

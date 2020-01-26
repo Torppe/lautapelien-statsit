@@ -1,48 +1,7 @@
 import React from 'react'
 import Grid from '@material-ui/core/Grid'
-import { Typography, Card, CardContent, makeStyles } from '@material-ui/core'
-
-const useStyles = makeStyles({
-  item: {
-    width: '11.5em'
-  },
-  cardContent: {
-    padding: '0.4em 0.8em 0 1em',
-    '&:last-child': {
-      paddingBottom: '0.5em'
-    }
-  },
-  card: {
-    borderRadius: '10px'
-  },
-  title: {
-    fontSize: '1.8em',
-    lineHeight: '1.25em',
-    paddingBottom: '0.3em'
-  },
-})
-
-const GridItem = (props) => {
-  const {title, value, classes} = props
-  if(!title || !value)
-    return null
-  
-  return (
-    <Grid item className={classes.item}>
-      <Card className={classes.card}>
-        <CardContent className={classes.cardContent}>
-          <Typography className={classes.title} color='textSecondary'>
-            {title}
-          </Typography>
-          <Typography align='right' variant='h4' component='h2'>
-            {value}
-          </Typography>
-          {props.children}
-        </CardContent>
-      </Card>
-    </Grid>
-  )
-}
+import { Typography } from '@material-ui/core'
+import GridItem from './GridItem'
 
 const mostWins = (matches) => {
   if(!matches)
@@ -64,8 +23,6 @@ const mostWins = (matches) => {
 }
 
 const Stats = ({matches}) => {
-  const classes = useStyles()
-  
   const players = matches.map(m => m.players).flat()
   const points = players.map(p => p.points)
   const averagePoints = +(points.reduce((acc, item) => acc + item, 0) / points.length).toFixed(2)
@@ -75,13 +32,12 @@ const Stats = ({matches}) => {
   return (
     <>
       <Grid container spacing={2} justify='center'>
-        <GridItem title='Games played' value={matches.length} classes={classes}/>
-        <GridItem title='Average points' value={averagePoints} classes={classes}/>
+        <GridItem title='Games played' value={matches.length}/>
+        <GridItem title='Average points' value={averagePoints}/>
         {mostPointsPlayer && 
           <GridItem 
             title='Most points' 
-            value={mostPointsPlayer.points} 
-            classes={classes}>
+            value={mostPointsPlayer.points}>
             <Typography 
               color='textSecondary'
               variant='body1' 
@@ -93,8 +49,7 @@ const Stats = ({matches}) => {
         {mostWinsPlayer &&
           <GridItem 
             title='Most wins' 
-            value={mostWinsPlayer.wins}
-            classes={classes}>
+            value={mostWinsPlayer.wins}>
             <Typography 
               color='textSecondary' 
               variant='body1' 

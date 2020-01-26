@@ -4,17 +4,17 @@ const baseUrl = '/api/matches'
 
 const getAll = async () => {
   const results = await axios.get(baseUrl)
-  return results.data
+  return results.data.filter(r => r.game)
 }
 
 const getByGame = async (id) => {
   const results = await axios.get(`${baseUrl}/game/${id}`)
-  return results.data
+  return results.data.filter(r => r.game)
 }
 
 const getByPlayer = async (id) => {
   const results = await axios.get(`${baseUrl}/player/${id}`)
-  return results.data
+  return results.data.filter(r => r.game)
 }
 
 const create = async newObject => {

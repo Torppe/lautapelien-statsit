@@ -52,7 +52,9 @@ const Game = ({ gameId, setHeader, user }) => {
 
     return(
       <>
-        {isModified ? <MatchForm handleSubmit={handleSubmit} handleCloseForm={() => setIsModified(false)}/> : <AddButton handleClick={() => setIsModified(true)}/>}
+        {isModified ? 
+          <MatchForm handleSubmit={handleSubmit} handleCloseForm={() => setIsModified(false)}/> 
+          : <AddButton handleClick={() => setIsModified(true)}/>}
       </>
     )
   }

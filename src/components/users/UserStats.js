@@ -25,9 +25,9 @@ const UserStats = ({ matches, playerId }) => {
   return (
     <>
       <Grid container spacing={2} justify='center' style={{ marginBottom: '0.35em' }}>
-        <GridItem title='Matches total' value={matches.length} />
-        <GridItem title='Wins total' value={totalWins} />
-        <GridItem title='Overall win %' value={winPercentage && `${winPercentage} %`} />
+        <GridItem title='Matches' value={matches.length} />
+        <GridItem title='Wins' value={totalWins} />
+        <GridItem title='Win %' value={winPercentage && `${winPercentage} %`} />
       </Grid>
     </>
   )

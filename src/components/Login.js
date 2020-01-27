@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
-import { FormControl, OutlinedInput, Button, Grid, makeStyles, Typography } from '@material-ui/core'
+import { FormControl, OutlinedInput, Button, Grid, makeStyles, Typography, useTheme } from '@material-ui/core'
 import loginService from '../services/login'
+import { ReactComponent as Logo } from '../images/tabletop_icon.svg'
 
 const storageKey = 'loggedTabletopAppUser'
 
@@ -20,6 +21,9 @@ const useStyles = makeStyles(theme => ({
     borderRadius: '40px',
     textAlign: 'center',
   },
+  logo: {
+    width: '8em',
+  },
   container: {
     [theme.breakpoints.down('xs')]: {
       position: 'fixed',
@@ -35,6 +39,7 @@ const Login = ({ setUser, user, setHeader }) => {
   const [password, setPassword] = useState('')
 
   const classes = useStyles()
+  const theme = useTheme();
 
   const handleLogin = async (event) => {
     event.preventDefault()
@@ -121,6 +126,9 @@ const Login = ({ setUser, user, setHeader }) => {
           alignItems='center'
           direction='column'
           className={classes.container}>
+          <Grid item className={classes.logo}>
+            <Logo fill={theme.palette.text.primary}/>
+          </Grid>
           <Grid item className={classes.heading}>
             <Typography component='h2' variant='h4' color='textPrimary' gutterBottom>
               Keep track of

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Typography, List, Button } from '@material-ui/core' 
+import { Typography, List, Button, FormControl, InputLabel, Select, MenuItem, Grid, Container, makeStyles } from '@material-ui/core'
 import matchService from '../../services/matches'
 import playerService from '../../services/players'
 import UserStats from './UserStats'
@@ -8,7 +8,7 @@ import UserStatsByGame from './UserStatsByGame'
 const games = (matches) => {
   const results = [];
   const set = new Set();
-  
+
   for (const item of matches) {
     if (!set.has(item.game.id)) {
       set.add(item.game.id);
@@ -22,10 +22,26 @@ const games = (matches) => {
   return results
 }
 
+const useStyles = makeStyles(theme => ({
+  container: {
+    maxWidth: '470px'
+  },
+  bottomMargin: {
+    marginBottom: '1em'
+  },
+  gameStats: {
+    marginBottom: '0.35em',
+    marginTop: '1em'
+  }
+
+}))
+
 const User = ({ playerId, setHeader }) => {
   const [matches, setMatches] = useState([])
   const [playedGames, setPlayedGames] = useState([])
-  const [selectedGame, setSelectedGame] = useState(null)
+  const [selectedGame, setSelectedGame] = useState("")
+
+  const classes = useStyles()
 
   useEffect(() => {
     const fetchMatches = async () => {
@@ -48,19 +64,40 @@ const User = ({ playerId, setHeader }) => {
 
   }, [playerId, setHeader])
 
-  return(
+  const handleChange = ({ target }) => {
+    setSelectedGame(target.value)
+  }
+
+  return (
     <>
-      <Typography component='h2' variant='h5' gutterBottom>
-        Overall stats
+      <Container disableGutters className={classes.container}>
+        <Typography component='h2' variant='h4' align='center' className={classes.bottomMargin}>
+          Overall stats
       </Typography>
-      <UserStats matches={matches} playerId={playerId}/>
-      <Typography component='h2' variant='h5' gutterBottom>
-        Game specific stats
-      </Typography>
-      <List disablePadding>
-        {playedGames.map(g => <Button key={g.id} onClick={() => setSelectedGame(g.id)}>{g.title}</Button>)}
-      </List>
-      {selectedGame && <UserStatsByGame matches={matches} playerId={playerId} gameId={selectedGame}/>}
+        <UserStats matches={matches} playerId={playerId}/>
+        <Typography component='h2' variant='h4' align='center' className={classes.gameStats}>
+          Game stats
+        </Typography>
+        <FormControl variant="outlined" fullWidth className={classes.bottomMargin}>
+          <InputLabel id="game-label">
+            Game
+          </InputLabel>
+          <Select
+            labelId="game-label"
+            id="game-select-menu"
+            value={selectedGame}
+            onChange={handleChange}
+          >
+            <MenuItem value="">
+              <em>None</em>
+            </MenuItem>
+            {playedGames.map(g =>
+              <MenuItem key={g.id} value={g.id}>{g.title}</MenuItem>
+            )}
+          </Select>
+        </FormControl>
+        {selectedGame && <UserStatsByGame matches={matches} playerId={playerId} gameId={selectedGame} />}
+      </Container>
     </>
   )
 }

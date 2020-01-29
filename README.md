@@ -7,7 +7,7 @@ Tällä hetkellä sovelluksen frontendiin ei ole tehty rekisteröitymistä. Tiet
 Username = mestari
 Password = salainen
   
-Sovellus on testattavissa osoitteessa http://frozen-dusk-07136.herokuapp.com/
+Sovellus on testattavissa osoitteessa https://frozen-dusk-07136.herokuapp.com/
 
 Sovelluksen backend: https://github.com/Torppe/tabletop-stats-backend
 

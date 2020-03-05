@@ -17,16 +17,7 @@ const mostWins = (matches) => {
       playerMap.set(w.player.name, 1)
     }
   })
-  // const matchArray = matches.map(m => m.players)
-  // for(let i=0; i < matchArray.length; i++) {
-  //   const winner = matchArray[i].reduce((prev, current) => (current.points > prev.points) ? current : prev)
-  //   const wins = playerMap.get(winner.player.name)
-  //   if(wins) {
-  //     playerMap.set(winner.player.name, wins + 1)
-  //   } else {
-  //     playerMap.set(winner.player.name, 1)
-  //   }
-  // }
+  
   const result = [...playerMap.entries()].reduce((prev, current) => current[1] > prev[1] ? current : prev, [0,0])
   return {name: result[0], wins: result[1]}
 }

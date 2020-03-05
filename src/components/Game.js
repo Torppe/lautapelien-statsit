@@ -1,16 +1,17 @@
 import React, { useState, useEffect } from 'react'
 import Stats from './Stats'
-import MatchForm from './MatchForm'
-import AddButton from './AddButton'
 import matchService from '../services/matches'
 import gameService from '../services/games'
+import MatchForm from './MatchForm'
+import AddButton from './AddButton'
+import MatchHistory from './MatchHistory'
 
 const Game = ({ gameId, setHeader, user }) => {
   const [matches, setMatches] = useState([])
   const [isModified, setIsModified] = useState(false)
 
   useEffect(() => {
-    const fetchGame = async () => {
+    const fetchMatches = async () => {
       try {
         const results = await matchService.getByGame(gameId)
         setMatches(results)
@@ -27,7 +28,7 @@ const Game = ({ gameId, setHeader, user }) => {
       }
     }
 
-    fetchGame()
+    fetchMatches()
     fetchHeader()
   }, [gameId, setHeader])
 
@@ -61,7 +62,8 @@ const Game = ({ gameId, setHeader, user }) => {
 
   return (
     <>
-      {!isModified && <Stats matches={matches}/>}
+      {!isModified && <Stats matches={matches} />}
+      {!isModified && <MatchHistory matches={matches} />}
       {userContent()}
     </>
   )

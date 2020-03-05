@@ -1,7 +1,4 @@
-import React, { useEffect } from 'react'
-import Grid from '@material-ui/core/Grid'
-import GridItem from '../GridItem'
-import { Typography, List } from '@material-ui/core'
+import React from 'react'
 import UserStats from './UserStats'
 
 const UserStatsByGame = ({ matches, playerId, gameId }) => {

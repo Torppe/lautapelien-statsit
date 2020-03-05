@@ -73,7 +73,7 @@ const User = ({ playerId, setHeader }) => {
       <Container disableGutters className={classes.container}>
         <Typography component='h2' variant='h4' align='center' className={classes.bottomMargin}>
           Overall stats
-      </Typography>
+        </Typography>
         <UserStats matches={matches} playerId={playerId}/>
         <Typography component='h2' variant='h4' align='center' className={classes.gameStats}>
           Game stats

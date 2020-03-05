@@ -1,16 +1,17 @@
 import React from 'react'
-import { 
-  ExpansionPanel, 
-  ExpansionPanelSummary, 
-  Typography, 
-  ExpansionPanelDetails, 
+import {
+  ExpansionPanel,
+  ExpansionPanelSummary,
+  Typography,
+  ExpansionPanelDetails,
   Table,
   TableContainer,
   TableHead,
   TableCell,
   TableBody,
   TableRow,
-  makeStyles
+  makeStyles,
+  Container
 } from '@material-ui/core'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import { ReactComponent as Crown } from '../images/crown_icon.svg'
@@ -26,15 +27,23 @@ const useStyles = makeStyles({
   },
   details: {
     padding: 0
+  },
+  historyHeader: {
+    padding: '1em 0'
   }
 })
 
 const MatchHistory = ({ matches }) => {
   const classes = useStyles()
 
-  const matchesByDate = matches.sort((a, b) => {
-    return new Date(b.date) - new Date(a.date)
-  })
+
+  const recentMatches = () => {
+    const matchesByDate = matches.sort((a, b) => {
+      return new Date(b.date) - new Date(a.date)
+    })
+
+    return matchesByDate.slice(0, 5)
+  }
 
   const formatDate = (input) => {
     if (!input)
@@ -71,21 +80,27 @@ const MatchHistory = ({ matches }) => {
 
   return (
     <>
-      {matchesByDate.map(m => {
-        return (
-          <ExpansionPanel key={m.id}>
-            <ExpansionPanelSummary
-              expandIcon={<ExpandMoreIcon />}>
-              <Typography>{formatDate(m.date)}</Typography>
-              <Crown style={{width: '3em', height: '1.5em'}}/>
-              <Typography>{m.winner.player.name}</Typography>
-            </ExpansionPanelSummary>
-            <ExpansionPanelDetails className={classes.details}>
-              {resultList(m.players)}
-            </ExpansionPanelDetails>
-          </ExpansionPanel>
-        )
-      })}
+      <Typography component='h2' variant='h4' align='center' className={classes.historyHeader}>
+        Recent Matches
+      </Typography>
+      <Container disableGutters style={{ maxWidth: '620px' }} align='center'>
+        {matches.length < 1 && <em>no matches</em>}
+        {recentMatches().map(m => {
+          return (
+            <ExpansionPanel key={m.id}>
+              <ExpansionPanelSummary
+                expandIcon={<ExpandMoreIcon />}>
+                <Typography>{formatDate(m.date)}</Typography>
+                <Crown style={{ width: '3em', height: '1.5em' }} />
+                <Typography>{m.winner.player.name}</Typography>
+              </ExpansionPanelSummary>
+              <ExpansionPanelDetails className={classes.details}>
+                {resultList(m.players)}
+              </ExpansionPanelDetails>
+            </ExpansionPanel>
+          )
+        })}
+      </Container>
     </>
   )
 }

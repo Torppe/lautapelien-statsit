@@ -17,7 +17,7 @@ const mostWins = (matches) => {
       playerMap.set(w.player.name, 1)
     }
   })
-  
+
   const result = [...playerMap.entries()].reduce((prev, current) => current[1] > prev[1] ? current : prev, [0,0])
   return {name: result[0], wins: result[1]}
 }
@@ -31,7 +31,11 @@ const Stats = ({matches}) => {
 
   return (
     <>
+      <Typography component='h2' variant='h4' align='center' style={{marginBottom: '1em'}}>
+        Overall stats
+      </Typography>
       <Grid container spacing={2} justify='center'>
+        {matches.length < 1 && <em>no matches</em>}
         <GridItem title='Games played' value={matches.length}/>
         <GridItem title='Average points' value={averagePoints}/>
         {mostPointsPlayer && 

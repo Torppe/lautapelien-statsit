@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Typography, List, Button, FormControl, InputLabel, Select, MenuItem, Grid, Container, makeStyles } from '@material-ui/core'
+import { Typography, FormControl, InputLabel, Select, MenuItem, Container, makeStyles } from '@material-ui/core'
 import matchService from '../../services/matches'
 import playerService from '../../services/players'
 import UserStats from './UserStats'

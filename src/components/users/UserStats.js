@@ -1,26 +1,22 @@
 import React from 'react'
 import Grid from '@material-ui/core/Grid'
 import GridItem from '../GridItem'
+import statsService from '../../services/stats'
+import {
+  ArgumentAxis,
+  ValueAxis,
+  Chart,
+  LineSeries,
+} from '@devexpress/dx-react-chart-material-ui';
 
 const UserStats = ({ matches, playerId }) => {
+  if(!matches || matches.length < 1)
+    return null
 
-  const wins = () => {
-    const playersArray = matches.map(m => m.players)
-    let wins = 0
-    let winner
-
-    for (let i = 0; i < playersArray.length; i++) {
-      winner = playersArray[i].reduce((prev, current) => (current.points > prev.points) ? current : prev)
-      if (winner.player.id === playerId) {
-        wins++
-      }
-    }
-
-    return wins
-  }
-
-  const totalWins = wins()
-  const winPercentage = +(totalWins / matches.length * 100).toFixed(1)
+  const data = [{argument: 1, value: 10}]
+  const totalWins = statsService.winsByPlayer(matches, playerId)
+  const winPercentage = statsService.playerWinPercentage(matches, totalWins)
+  const performance = statsService.playerPerformance(matches, playerId)
 
   return (
     <>
@@ -28,6 +24,13 @@ const UserStats = ({ matches, playerId }) => {
         <GridItem title='Matches' value={matches.length} />
         <GridItem title='Wins' value={totalWins} />
         <GridItem title='Win %' value={winPercentage && `${winPercentage} %`} />
+        {performance && <GridItem title='Performance' value='0' itemWidth='30em'>
+            <Chart data={performance}>
+              <ArgumentAxis/>
+              <ValueAxis />
+              <LineSeries valueField='points' argumentField='match' />
+            </Chart>
+          </GridItem>}
       </Grid>
     </>
   )

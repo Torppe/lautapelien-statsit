@@ -22,14 +22,17 @@ const useStyles = makeStyles({
   },
 })
 
-const GridItem = (props) => {
-  const { title, value, titleStyle } = props
+const GridItem = ({ title, value, titleStyle, itemWidth, children, hideValue }) => {
   const classes = useStyles()
+  const itemStyle = { 
+    width: itemWidth ? itemWidth : '11.5em'
+  }
+
   if(!title || !value)
     return null
-  
+
   return (
-    <Grid item className={classes.item}>
+    <Grid item style={itemStyle}>
       <Card className={classes.card}>
         <CardContent className={classes.cardContent}>
           <Typography className={classes.title} color='textSecondary' style={titleStyle}>
@@ -38,7 +41,7 @@ const GridItem = (props) => {
           <Typography align='right' variant='h4' component='h2'>
             {value}
           </Typography>
-          {props.children}
+          {children}
         </CardContent>
       </Card>
     </Grid>

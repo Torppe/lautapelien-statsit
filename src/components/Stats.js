@@ -3,6 +3,18 @@ import Grid from '@material-ui/core/Grid'
 import { Typography } from '@material-ui/core'
 import GridItem from './GridItem'
 import statsService from '../services/stats'
+import {
+  ArgumentAxis,
+  ValueAxis,
+  Chart,
+  LineSeries,
+} from '@devexpress/dx-react-chart-material-ui';
+
+const data = [
+  { argument: 1, value: 10 },
+  { argument: 2, value: 20 },
+  { argument: 3, value: 30 },
+];
 
 const Stats = ({matches}) => {
   const players = matches.map(m => m.players).flat()
@@ -10,6 +22,7 @@ const Stats = ({matches}) => {
   const averagePoints = statsService.averagePoints(points)
   const mostWinsPlayer = statsService.playerWithMostWins(matches)
   const mostPointsPlayer = statsService.playerWithMostPoints(players)
+  // const playerPerformance = statsService.playerPerformance(players)
 
   return (
     <>

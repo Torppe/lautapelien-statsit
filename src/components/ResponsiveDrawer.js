@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Route } from 'react-router-dom'
-import { List } from '@material-ui/core';
+import { List, ListItem } from '@material-ui/core';
 import { makeStyles, useTheme} from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -96,6 +96,9 @@ const ResponsiveDrawer = (props) => {
   const drawer = (
     <div>
       <div className={classes.toolbar}>
+        <List>
+            <div style={{textAlign: 'center', marginTop: '1em'}}>Tabletop stats v1.0 </div>
+        </List>
       </div>
       <Divider />
       <List disablePadding>
@@ -109,7 +112,7 @@ const ResponsiveDrawer = (props) => {
   return (
     <div className={classes.root}>
       <CssBaseline />
-      <AppBar style={{boxShadow: 'none'}} color='primary' position="fixed" className={classes.appBar}>
+      <AppBar style={{backgroundColor: '#f09c42'}} position="fixed" className={classes.appBar}>
         <Toolbar>
           <IconButton
             color="inherit"

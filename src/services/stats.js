@@ -1,3 +1,5 @@
+import util from '../util/util'
+
 const averagePoints = (points) => {
   return +(points.reduce((acc, item) => acc + item, 0) / points.length).toFixed(2)
 }
@@ -27,6 +29,8 @@ const playerWithMostPoints = (players) => {
 }
 
 const playerPerformance = (matches, playerId) => {
+  if(!matches || matches.length < 2)
+    return null
 
   const matchesByPlayer = matches.map(m => m.players).flat().filter(p => p.player.id === playerId)
   const data = matchesByPlayer.map((m, index) => {
@@ -35,7 +39,7 @@ const playerPerformance = (matches, playerId) => {
       points: m.points
     } 
   })
-  console.log(data)
+
   return data
 }
 

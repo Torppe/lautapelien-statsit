@@ -1,6 +1,7 @@
 import React from 'react'
 import Grid from '@material-ui/core/Grid'
 import GridItem from '../GridItem'
+import StatsGridItem from '../StatsGridItem'
 import statsService from '../../services/stats'
 import {
   ArgumentAxis,
@@ -13,7 +14,6 @@ const UserStats = ({ matches, playerId }) => {
   if(!matches || matches.length < 1)
     return null
 
-  const data = [{argument: 1, value: 10}]
   const totalWins = statsService.winsByPlayer(matches, playerId)
   const winPercentage = statsService.playerWinPercentage(matches, totalWins)
   const performance = statsService.playerPerformance(matches, playerId)
@@ -24,13 +24,12 @@ const UserStats = ({ matches, playerId }) => {
         <GridItem title='Matches' value={matches.length} />
         <GridItem title='Wins' value={totalWins} />
         <GridItem title='Win %' value={winPercentage && `${winPercentage} %`} />
-        {performance && <GridItem title='Performance' value='0' itemWidth='30em'>
-            <Chart data={performance}>
-              <ArgumentAxis/>
+        {performance && <StatsGridItem title='Performance'>
+            <Chart data={performance} height={150}>
               <ValueAxis />
               <LineSeries valueField='points' argumentField='match' />
             </Chart>
-          </GridItem>}
+          </StatsGridItem>}
       </Grid>
     </>
   )

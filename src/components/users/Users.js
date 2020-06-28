@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import playerService from '../../services/players'
-import { Grid, Card, CardContent, Typography, makeStyles } from '@material-ui/core'
+import { Grid, Card, CardContent, Typography, makeStyles, CardMedia } from '@material-ui/core'
 import { Link } from 'react-router-dom'
-// import { List } from '@material-ui/core'
-// import ListItemLink from '../ListItemLink'
 
 const useStyles = makeStyles({
   item: {
@@ -24,6 +22,18 @@ const useStyles = makeStyles({
   },
   input: {
     backgroundColor: 'white',
+  },
+  mediaParent: {
+    width: '100%',
+    height: '100%',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  media: {
+    height: '140px',
+    width: '140px',
+    opacity: 0.025
   }
 })
 
@@ -54,6 +64,13 @@ const Users = ({ setHeader }) => {
             className={classes.item}>
             <Link to={`/player-stats/${p.id}`}>
               <Card className={classes.card}>
+                <div className={classes.mediaParent}>
+                  <CardMedia
+                    className={classes.media}
+                    image={require('../../images/face.png')}
+                    title="background image"
+                  />
+                </div>
                 <CardContent className={classes.cardContent}>
                   <Typography align='left' style={{ fontSize: '1.2em' }}>
                     {p.name}
@@ -64,9 +81,6 @@ const Users = ({ setHeader }) => {
           </Grid>
         )}
       </Grid>
-      {/* <List disablePadding>
-        {players.map(p => <ListItemLink key={p.id} to={`/player-stats/${p.id}`} primary={p.name} />)}
-      </List> */}
     </>
   )
 }

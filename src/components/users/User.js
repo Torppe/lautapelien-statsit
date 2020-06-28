@@ -96,7 +96,11 @@ const User = ({ playerId, setHeader }) => {
             )}
           </Select>
         </FormControl>
-        {selectedGame && <UserStatsByGame matches={matches} playerId={playerId} gameId={selectedGame} />}
+        {selectedGame && 
+          <UserStatsByGame 
+            matches={matches.filter(m => m.game.id === selectedGame)} 
+            playerId={playerId} 
+        />}
       </Container>
     </>
   )

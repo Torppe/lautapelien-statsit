@@ -1,5 +1,3 @@
-import util from '../util/util'
-
 const averagePoints = (points) => {
   return +(points.reduce((acc, item) => acc + item, 0) / points.length).toFixed(2)
 }

@@ -4,7 +4,7 @@ import { Typography, Card, CardContent, makeStyles } from '@material-ui/core'
 
 const useStyles = makeStyles({
   item: {
-    width: '25em'
+    width: '24em'
   },
   cardContent: {
     padding: '0.4em 0.8em 0 1em',

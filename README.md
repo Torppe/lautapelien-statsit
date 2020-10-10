@@ -13,6 +13,8 @@ Sovellus on testattavissa osoitteessa https://frozen-dusk-07136.herokuapp.com/
 
 Sovelluksen backend: https://github.com/Torppe/tabletop-stats-backend
 
+Stack: React, nodejs, mongodb
+
 # työaikakirjanpito
 
 | Päivä      | Aika  | Mitä tein                                                                                                                   |
